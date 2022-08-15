@@ -4,7 +4,7 @@
     "description": "A simple, file based, lightweight PHP library for caching data.",
     "keywords": ["php", "cache", "caching", "filesystem"],
     "homepage": "https://github.com/stefangabos/Zebra_Cache",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-only",
     "authors": [
         {
             "name": "Stefan Gabos",
