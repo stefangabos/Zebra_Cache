@@ -17,6 +17,11 @@ class Zebra_Cache {
     /**
      *  Whether cache files should be {@link https://www.php.net/manual/en/function.gzcompress.php gzcompress}-ed.
      *
+     *  <code>
+     *  // enable gz-compressing, saving disk space
+     *  $cache->cache_gzcompress = true;
+     *  </code>
+     *
      *  Default is `FALSE`
      *
      *  @var boolean
