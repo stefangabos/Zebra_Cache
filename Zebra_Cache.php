@@ -213,6 +213,7 @@ class Zebra_Cache {
      *
      *  @param  integer     $timeout    The number of seconds after which the cached data will be considered as expired.
      *
+     *  @return boolean                 Returns `TRUE`
      */
     public function store($key, $data, $timeout) {
 
@@ -223,7 +224,7 @@ class Zebra_Cache {
         if (!$data) return false;
 
         // if timeout value is invalid
-        if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', $timeout)) $this->_error('invalid timeout value argument in store() method');
+        if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout)) $this->_error('invalid timeout value argument in store() method');
 
         // delete any other cache file in case it already exists with a different timeout
         $this->flush($key);
@@ -253,6 +254,8 @@ class Zebra_Cache {
     /**
      *  Checks if {@link path} exists and is writable and triggers a fatal error if it isn't.
      *
+     *  @return void
+     *
      *  @access private
      */
     private function _check_path() {
@@ -261,6 +264,15 @@ class Zebra_Cache {
 
     }
 
+    /**
+     *  Custom error function.
+     *
+     *  @param  string  $message        The error message to display.
+     *
+     *  @return void
+     *
+     *  @access private
+     */
     private function _error($message) {
 
         trigger_error('<strong>Zebra_Cache</strong>: ' . $message, E_USER_ERROR);
