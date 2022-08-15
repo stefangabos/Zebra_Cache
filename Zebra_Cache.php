@@ -227,9 +227,13 @@ class Zebra_Cache {
         $data = serialize($data);
 
         // if data needs to be encrypted
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-        $encrypted = openssl_encrypt($data, 'aes-256-cbc', $this->cache_encrypt, 0, $iv);
-        $data = base64_encode($encrypted . '::' . $iv);
+        if ($this->cache_encrypt) {
+
+            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+            $encrypted = openssl_encrypt($data, 'aes-256-cbc', $this->cache_encrypt, 0, $iv);
+            $data = base64_encode($encrypted . '::' . $iv);
+
+        }
 
         // if data needs to also be gz-compressed
         if ($this->cache_gzcompress) $data = gzcompress($data);
