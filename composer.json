@@ -1,26 +1,4 @@
 {
-    "name": "stefangabos/zebra_cache",
-    "type": "library",
-    "description": "A simple, file based, lightweight PHP library for caching data.",
-    "keywords": ["php", "cache", "caching", "filesystem"],
-    "homepage": "https://github.com/stefangabos/Zebra_Cache",
-    "license": "LGPL-3.0-only",
-    "authors": [
-        {
-            "name": "Stefan Gabos",
-            "email": "contact@stefangabos.ro",
-            "homepage": "https://github.com/stefangabos",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.0"
-    },
-    "autoload": {
-        "classmap": [
-            "Zebra_Cache.php"
-        ]
-    },
     "require-dev": {
         "phpstan/phpstan": "^1.8",
         "squizlabs/php_codesniffer": "*"
