@@ -188,6 +188,51 @@ class Zebra_Cache {
     }
 
     /**
+     *  Checks whether a cached, non-expired value exists for the given key.
+     *
+     *  <code>
+     *  if ($cached_info = $cache->is_cached('my-key')) {
+     *
+     *      print_r('<pre>');
+     *      print_r($cached_info);
+     *
+     *  }
+     *  </code>
+     *
+     *  @param  string      $key    The key for which to check if a cached value exists.
+     *
+     *  @return boolean             Returns information about the cache associated with the given key **if** the associated
+     *                              cache file exists **and** it is not expired, or `FALSE` otherwise.
+     *
+     *                              If a cached values exists and it is not expired, the returned array will look like
+     *
+     *                              <code>
+     *                              Array (
+     *                                  'path'       => '',  //  path to the cache file
+     *                                  'timeout'    => '',  //  the number of seconds the cache was supposed to be valid
+     *                                  'ttl'        => '',  //  time to live, the number of seconds remaining until the cache expires
+     *                              )
+     *                              </code>
+     */
+    public function is_cached($key) {
+
+        // if cache file exists and it is not expired
+        if (($file_info = $this->_get_file_info($key)) && ($ttl = time() - filemtime($file_info['path'])) < $file_info['timeout']) {
+
+            // the remaining number of seconds
+            $file_info['ttl'] = $file_info['timeout'] - $ttl;
+
+            // return the info
+            return $file_info;
+
+        }
+
+        // if we get this far it means the cache file does not exist or it is expired
+        return false;
+
+    }
+
+    /**
      *  Caches data identified by a unique key for a specific number of seconds.
      *
      *  <code>
