@@ -1,0 +1,1 @@
+vendor\bin\phpstan analyse & vendor\bin\phpcs --standard=PSR12,coding-standards.xml Zebra_Cache.php

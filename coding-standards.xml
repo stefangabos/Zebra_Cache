@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<ruleset name="zebra">
+
+    <description>Coding standards</description>
+
+    <ini name="memory_limit" value="256M"/>
+
+    <rule ref="PSR12">
+
+        <!-- Let the Git manage the EOL cross the platforms. -->
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+
+        <!-- Don't warn about lines being too long -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+
+        <!-- Allow class names to be written in snake_case -->
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+
+        <!-- Don't force braces being on the same line as the function's declaration -->
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="Squiz.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="PEAR.Functions.FunctionDeclaration.BraceOnSameLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+
+        <!-- Allow method names to be written in snake_case -->
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
+
+        <!-- Allow blank line before the closing brace of a class -->
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
+
+        <!-- Allow blank line before the closing brace of a function -->
+        <exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
+
+        <!-- Allow private methods to have underscore as their name's first character -->
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
+
+        <!-- Allow blank line after the opening brace of a class -->
+        <exclude name="PSR12.Classes.OpeningBraceSpace.Found" />
+
+        <!-- Allow blank lines at the start/end of control structures -->
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
+
+
+
+
+    </rule>
+
+    <!-- Function declarations follow the "Kernighan/Ritchie style". The function brace is on the same line as the
+    function declaration. One space is required between the closing parenthesis and the brace. -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
+
+</ruleset>
