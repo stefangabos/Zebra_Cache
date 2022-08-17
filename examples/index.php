@@ -11,7 +11,7 @@ $cache = new Zebra_Cache('cache');
 $download_path = 'http://speedtest.ftp.otenet.gr/files/test100k.db';
 
 // if download was not yet cached
-if (!($response = $cache->fetch($download_path))) {
+if (!($response = $cache->get($download_path))) {
 
     echo 'File is not yet cached; Downloading...<br>';
 
@@ -19,7 +19,7 @@ if (!($response = $cache->fetch($download_path))) {
     $file_content = file_get_contents($download_path);
 
     // cache the result for one hour
-    $cache->store($download_path, $file_content, 3600);
+    $cache->set($download_path, $file_content, 3600);
 
     echo 'File downloaded and cached in the "./cache" folder<br>';
 
