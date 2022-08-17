@@ -51,13 +51,13 @@ require_once 'path/to/Zebra_Cache.php';
 $cache = new Zebra_Cache();
 
 // if a cached, non-expired value for the sought key does not exist
-if (!($data = $cache->fetch('my-key'))) {
+if (!($data = $cache->get('my-key'))) {
 
     // do whatever you need to retrieve data
     $data = 'get this data';
 
     // cache the values for one hour (3600 seconds)
-    $cache->store('my-key', $some_data, 3600);
+    $cache->set('my-key', $some_data, 3600);
 
 }
 
