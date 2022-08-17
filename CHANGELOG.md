@@ -1,3 +1,8 @@
+## version 1.2.0 (August 17, 2022)
+
+- renamed all methods to compy with [PSR-16](https://www.php-fig.org/psr/psr-16/)
+- added a new [default_timeout](https://stefangabos.github.io/Zebra_Cache/Zebra_Cache/Zebra_Cache.html#var$default_timeout) property
+
 ## version 1.1.0 (August 17, 2022)
 
 - added [is_cached](https://stefangabos.github.io/Zebra_Cache/Zebra_Cache/Zebra_Cache.html#methodis_cached) method which will also return the ttl (time to live) of the cached value
