@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 
+<!-- in command line, use -s to find out what rule was applied for each error -->
+
 <ruleset name="zebra">
 
     <description>Coding standards</description>
