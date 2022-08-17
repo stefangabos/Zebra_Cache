@@ -42,6 +42,12 @@
         <!-- Allow blank line after the opening brace of a class -->
         <exclude name="PSR12.Classes.OpeningBraceSpace.Found" />
 
+        <!-- In multi-line control structures, the first expression can be on the next line -->
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
+
+        <!-- In multi-line control structures, the parenthesis after the last expression can be on the next line -->
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
+
         <!-- Allow blank lines at the start/end of control structures -->
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
