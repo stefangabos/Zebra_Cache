@@ -80,7 +80,7 @@ class Zebra_Cache {
      *
      *  @return void
      */
-    function __construct($path, $extension = '') {
+    public function __construct($path, $extension = '') {
 
         $this->path = rtrim($path, '/') . '/';
         $this->extension = $extension;
@@ -109,7 +109,9 @@ class Zebra_Cache {
         $files = glob($this->path . md5($key) . '-*' . $this->extension);
 
         // delete the file(s)
-        foreach ($files as $file) @unlink($file);
+        foreach ($files as $file) {
+            @unlink($file);
+        }
 
         return !empty($files);
 
@@ -147,7 +149,9 @@ class Zebra_Cache {
             $data = file_get_contents($file_info['path']);
 
             // if data was gz-compressed
-            if ($this->cache_gzcompress) $data = gzuncompress($data);
+            if ($this->cache_gzcompress) {
+                $data = gzuncompress($data);
+            }
 
             // if data was encrypted
             if ($this->cache_encrypt) {
@@ -221,10 +225,14 @@ class Zebra_Cache {
         $this->_check_path();
 
         // anything that evaluates to false, null, '', boolean false or 0 will not be cached
-        if (!$data) return false;
+        if (!$data) {
+            return false;
+        }
 
         // if timeout value is invalid
-        if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout)) $this->_error('invalid timeout value argument in store() method');
+        if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout)) {
+            $this->_error('invalid timeout value argument in store() method');
+        }
 
         // delete any other cache file in case it already exists with a different timeout
         $this->flush($key);
@@ -242,7 +250,9 @@ class Zebra_Cache {
         }
 
         // if data needs to also be gz-compressed
-        if ($this->cache_gzcompress) $data = gzcompress($data);
+        if ($this->cache_gzcompress) {
+            $data = gzcompress($data);
+        }
 
         // cache content to file
         file_put_contents($this->path . md5($key) . '-' . $timeout . $this->extension, $data);
@@ -260,7 +270,9 @@ class Zebra_Cache {
      */
     private function _check_path() {
 
-        if (!file_exists($this->path) || !is_writable($this->path)) $this->_error('path "' .  str_replace('\\', '/', getcwd()) . '/' . $this->path . '" does not exists or is not writable');
+        if (!file_exists($this->path) || !is_writable($this->path)) {
+            $this->_error('path "' . str_replace('\\', '/', getcwd()) . '/' . $this->path . '" does not exists or is not writable');
+        }
 
     }
 
@@ -310,10 +322,12 @@ class Zebra_Cache {
         // if, for some reason, there are multiple cache files with the same key
         // (this should never happen, but we check, just in case)
         // we delete all
-        if (count($file) > 1) $this->flush($key);
+        if (count($file) > 1) {
+
+            $this->flush($key);
 
         // if we found exactly one file
-        elseif (count($file) == 1) {
+        } elseif (count($file) == 1) {
 
             // get the timeout value
             list($prefix, $timeout) = explode('-', substr($file[0], 0, -strlen($this->extension)));
@@ -322,8 +336,8 @@ class Zebra_Cache {
             if (is_numeric($timeout) && $timeout > 1 && preg_match('/^[0-9]+$/', $timeout)) {
 
                 return array(
-                    'path'      =>  $file[0],
-                    'timeout'   =>  $timeout,
+                    'path'      => $file[0],
+                    'timeout'   => $timeout,
                 );
 
             }
