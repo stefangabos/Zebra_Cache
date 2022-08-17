@@ -6,7 +6,7 @@
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.0.0 (last revision: August 15, 2022)
+ *  @version    1.1.0 (last revision: August 17, 2022)
  *  @copyright  © 2022 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
