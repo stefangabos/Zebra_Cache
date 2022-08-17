@@ -330,7 +330,7 @@ class Zebra_Cache {
         } elseif (count($file) == 1) {
 
             // get the timeout value
-            list($prefix, $timeout) = explode('-', substr($file[0], 0, -strlen($this->extension)));
+            list($prefix, $timeout) = explode('-', $this->extension !== '' ? substr($file[0], 0, -strlen($this->extension)) : $file[0]);
 
             // if timeout value is valid
             if (is_numeric($timeout) && $timeout > 1 && preg_match('/^[0-9]+$/', $timeout)) {
