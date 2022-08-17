@@ -6,11 +6,10 @@
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.1.0 (last revision: August 17, 2022)
+ *  @version    1.2.0 (last revision: August 17, 2022)
  *  @copyright  © 2022 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
- *
  */
 class Zebra_Cache {
 
@@ -46,6 +45,17 @@ class Zebra_Cache {
     public $cache_encrypt = false;
 
     /**
+     *  The default number of seconds after which cached data will be considered as expired.
+     *
+     *  This is used by the {@link set()} method when the `timeout` argument is omitted.
+     *
+     *  Default is `3600` (one hour)
+     *
+     *  @var integer
+     */
+    public $default_timeout = 3600;
+
+    /**
      *  The extension to suffix cache files with.
      *
      *  <code>
@@ -74,13 +84,13 @@ class Zebra_Cache {
      *  $cache = new Zebra_Cache('path/to/store/cache-files/');
      *
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->fetch('my-key'))) {
+     *  if (!($some_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
      *      $some_data = 'get this data';
      *
      *      // cache the values for one hour (3600 seconds)
-     *      $cache->store('my-key', $some_data, 3600);
+     *      $cache->set('my-key', $some_data, 3600);
      *
      *  }
      *
@@ -108,7 +118,7 @@ class Zebra_Cache {
      *  Deletes the cache file associated with a key.
      *
      *  <code>
-     *  $cache->flush('my-key');
+     *  $cache->delete('my-key');
      *  </code>
      *
      *  @param  string      $key    The key for which to delete the associated cache file.
@@ -116,7 +126,7 @@ class Zebra_Cache {
      *  @return boolean             Returns `TRUE` if there was a file to be deleted or `FALSE` if there was nothing to
      *                              delete.
      */
-    public function flush($key) {
+    public function delete($key) {
 
         // make sure path exists and is writable
         $this->_check_path();
@@ -139,13 +149,13 @@ class Zebra_Cache {
      *
      *  <code>
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->fetch('my-key'))) {
+     *  if (!($some_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
      *      $some_data = 'get this data';
      *
      *      // cache the values for one hour (3600 seconds)
-     *      $cache->store('my-key', $some_data, 3600);
+     *      $cache->set('my-key', $some_data, 3600);
      *
      *  }
      *
@@ -157,7 +167,7 @@ class Zebra_Cache {
      *  @return boolean             Returns the cached content associated with the given key **if** the associated cache
      *                              file exists **and** it is not expired, or `FALSE` otherwise.
      */
-    public function fetch($key) {
+    public function get($key) {
 
         // if cache file exists and it is not expired, return the cached content
         if (($file_info = $this->_get_file_info($key)) && time() - filemtime($file_info['path']) < $file_info['timeout']) {
@@ -237,13 +247,13 @@ class Zebra_Cache {
      *
      *  <code>
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->fetch('my-key'))) {
+     *  if (!($some_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
      *      $some_data = 'get this data';
      *
      *      // cache the values for one hour (3600 seconds)
-     *      $cache->store('my-key', $some_data, 3600);
+     *      $cache->set('my-key', $some_data, 3600);
      *
      *  }
      *
@@ -275,11 +285,14 @@ class Zebra_Cache {
      *                                      <br>the `NULL` value
      *                                      <br>an empty array (an array with zero elements)
      *
-     *  @param  integer     $timeout    The number of seconds after which the cached data will be considered as expired.
+     *  @param  integer     $timeout    (Optional) The number of seconds after which the cached data will be considered
+     *                                  as expired.
+     *
+     *                                  If omitted, the value of {@link default_timeout} will be used.
      *
      *  @return boolean                 Returns `TRUE`
      */
-    public function store($key, $data, $timeout) {
+    public function set($key, $data, $timeout = -1) {
 
         // make sure path exists and is writable
         $this->_check_path();
@@ -289,13 +302,19 @@ class Zebra_Cache {
             return false;
         }
 
+        // if timeout is not specified
+        // use the global value
+        if ($timeout == -1) {
+            $timeout = $this->default_timeout;
+        }
+
         // if timeout value is invalid
         if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout)) {
-            $this->_error('invalid timeout value argument in store() method');
+            $this->_error('invalid timeout value argument in set() method');
         }
 
         // delete any other cache file in case it already exists with a different timeout
-        $this->flush($key);
+        $this->delete($key);
 
         // data is always serialized
         $data = serialize($data);
@@ -384,7 +403,7 @@ class Zebra_Cache {
         // we delete all
         if (count($file) > 1) {
 
-            $this->flush($key);
+            $this->delete($key);
 
         // if we found exactly one file
         } elseif (count($file) == 1) {
