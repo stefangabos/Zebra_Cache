@@ -70,6 +70,23 @@ class Zebra_Cache {
     /**
      *  Constructor of the class.
      *
+     *  <code>
+     *  $cache = new Zebra_Cache('path/to/store/cache-files/');
+     *
+     *  // if a cached, non-expired value for the sought key does not exist
+     *  if (!($some_data = $cache->fetch('my-key'))) {
+     *
+     *      // do whatever you need to retrieve data
+     *      $some_data = 'get this data';
+     *
+     *      // cache the values for one hour (3600 seconds)
+     *      $cache->store('my-key', $some_data, 3600);
+     *
+     *  }
+     *
+     *  // at this point $some_data will always contain your data, either from cache, or fresh
+     *  </code>
+     *
      *  @param  string      $path       The path where the cache files to be stored at.
      *
      *                                  >   This can be changed later by updating the {@link path} property.
