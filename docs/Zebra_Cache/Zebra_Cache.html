@@ -93,6 +93,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 <li><a href="#method__construct">__construct</a></li>
 <li><a href="#methodfetch">fetch</a></li>
 <li><a href="#methodflush">flush</a></li>
+<li><a href="#methodis_cached">is_cached</a></li>
 <li><a href="#methodstore">store</a></li>
 </ul>
 </div>
@@ -151,6 +152,21 @@ void
 ) 
 </p>
 <p>Constructor of the class.</p>
+<p><ol class="code"><li><div class="src-line"><span class="src-var">$cache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span><span class="src-sym">(</span><span class="src-str">'path/to/store/cache-files/'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodfetch">fetch</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;do&nbsp;whatever&nbsp;you&nbsp;need&nbsp;to&nbsp;retrieve&nbsp;data</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-str">'get&nbsp;this&nbsp;data'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;hour&nbsp;(3600&nbsp;seconds)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodstore">store</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
+</ol>
 <h5>Arguments</h5>
 <table>
 <tr>
@@ -189,8 +205,7 @@ boolean
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-sym">}</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line"><span class="src-comm">//&nbsp;return&nbsp;the&nbsp;data</span></div></li>
-<li><div class="src-line"><span class="src-key">return&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
 </ol>
 <h5>Arguments</h5>
 <table>
@@ -241,6 +256,47 @@ boolean
 <a href="#top" class="top">top</a>
 <div class="clear"></div>
 </div>
+<h4 id="methodis_cached" class="method"><span><em>method</em></span> is_cached()</h4>
+<div class="doc_block">
+<p class="code">
+boolean
+<span class="src-var">is_cached</span>
+(
+<span class="src-key">string</span>
+<span class="src-var">$key</span>
+) 
+</p>
+<p>Checks whether a cached, non-expired value exists for the given key.</p>
+<p><ol class="code"><li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$cached_info&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodis_cached">is_cached</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-str">'&lt;pre&gt;'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-var">$cached_info</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-sym">}</span></div></li>
+</ol>
+<h5>Arguments</h5>
+<table>
+<tr>
+<td><em>string</em></td>
+<td><strong>$key</strong></td>
+<td>The key for which to check if a cached value exists.</td>
+</tr>
+</table>
+<h5>Tags</h5>
+<table>
+<tr>
+<td><strong>return:</strong>&nbsp;&nbsp;</td>
+<td><p>Returns information about the cache associated with the given key <strong>if</strong> the associated                               cache file exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</p><p>If a cached values exists and it is not expired, the returned array will look like</p><ol class="code"><li><div class="src-line"><span class="src-key">Array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'path'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;path&nbsp;to&nbsp;the&nbsp;cache&nbsp;file</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'timeout'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;the&nbsp;number&nbsp;of&nbsp;seconds&nbsp;the&nbsp;cache&nbsp;was&nbsp;supposed&nbsp;to&nbsp;be&nbsp;valid</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'ttl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;time&nbsp;to&nbsp;live,&nbsp;the&nbsp;number&nbsp;of&nbsp;seconds&nbsp;remaining&nbsp;until&nbsp;the&nbsp;cache&nbsp;expires</span></div></li>
+<li><div class="src-line"><span class="src-sym">)</span></div></li>
+</ol></td>
+</tr>
+</table>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
 <h4 id="methodstore" class="method"><span><em>method</em></span> store()</h4>
 <div class="doc_block">
 <p class="code">
@@ -269,8 +325,7 @@ boolean
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-sym">}</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line"><span class="src-comm">//&nbsp;return&nbsp;the&nbsp;data</span></div></li>
-<li><div class="src-line"><span class="src-key">return&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
 </ol>
 <h5>Arguments</h5>
 <table>
@@ -305,7 +360,7 @@ boolean
 </tr>
 </table>
 <div id="doc_footer">
-Documentation generated on <span>Mon, 15 Aug 22</span>
+Documentation generated on <span>Wed, 17 Aug 22</span>
 </div>
 </div>
 <!-- Global site tag (gtag.js) - Google Analytics -->
