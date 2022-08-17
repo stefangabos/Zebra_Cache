@@ -4,7 +4,10 @@
 
     <description>Coding standards</description>
 
+    <file>Zebra_Cache.php</file>
+
     <ini name="memory_limit" value="256M"/>
+    <arg name="report-width" value="130"/>
 
     <rule ref="PSR12">
 
