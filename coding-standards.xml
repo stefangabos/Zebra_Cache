@@ -29,6 +29,10 @@
         <!-- Allow blank line before the closing brace of a class -->
         <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
 
+        <!-- Allow blank line after the CASE and DEFAULT keywords -->
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineCASE" />
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineDEFAULT" />
+
         <!-- Allow blank line before the closing brace of a function -->
         <exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
 
@@ -41,9 +45,6 @@
         <!-- Allow blank lines at the start/end of control structures -->
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
-
-
-
 
     </rule>
 
