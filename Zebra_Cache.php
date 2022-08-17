@@ -132,8 +132,7 @@ class Zebra_Cache {
      *
      *  }
      *
-     *  // return the data
-     *  return $some_data;
+     *  // at this point $some_data will always contain your data, either from cache, or fresh
      *  </code>
      *
      *  @param  string      $key    The key for which to return the cached value.
@@ -186,8 +185,7 @@ class Zebra_Cache {
      *
      *  }
      *
-     *  // return the data
-     *  return $some_data;
+     *  // at this point $some_data will always contain your data, either from cache, or fresh
      *  </code>
      *
      *  @param  string      $key         unique name identifying the data that is about to be stored.
