@@ -6,7 +6,12 @@
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_cache/v/stable)](https://packagist.org/packages/stefangabos/zebra_cache) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_cache/downloads)](https://packagist.org/packages/stefangabos/zebra_cache) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/monthly)](https://packagist.org/packages/stefangabos/zebra_cache) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/daily)](https://packagist.org/packages/stefangabos/zebra_cache) [![License](https://poser.pugx.org/stefangabos/zebra_cache/license)](https://packagist.org/packages/stefangabos/zebra_cache)
 
-**Zebra Cache** is a simple, file based caching environment for PHP.
+## Features
+
+- uses file locking to ensure proper functionality under heavy load - meaning that in a concurent environment, writing of cache file will acquire an exclusive lock on the file and reads will wait for the writing to finish before fetching the cached data
+- automatic serialization and compression of cache data to save space and improve performance
+- automatic expiration of cache items based on a specified time-to-live (TTL) value
+- support for multiple instances, allowing you to use different cache configurations for different parts of your application
 
 ## :notebook_with_decorative_cover: Documentation
 
