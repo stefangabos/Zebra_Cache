@@ -1,3 +1,7 @@
+## version 1.3.0 (December 29, 2022)
+
+- implemented file locking to ensure proper functionality under heavy load
+
 ## version 1.2.0 (August 17, 2022)
 
 - renamed all methods to compy with [PSR-16](https://www.php-fig.org/psr/psr-16/)
