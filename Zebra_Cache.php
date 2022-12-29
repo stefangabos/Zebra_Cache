@@ -1,12 +1,13 @@
 <?php
 
 /**
- *  A simple, file based, lightweight PHP library for caching data.
+ *  A simple, file based, lightweight PHP caching library that uses file locking to ensure proper functionality under
+ *  heavy load.
  *
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.2.0 (last revision: August 17, 2022)
+ *  @version    1.3.0 (last revision: December 29, 2022)
  *  @copyright  © 2022 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
@@ -172,7 +173,17 @@ class Zebra_Cache {
         // if cache file exists and it is not expired, return the cached content
         if (($file_info = $this->_get_file_info($key)) && time() - filemtime($file_info['path']) < $file_info['timeout']) {
 
+            // in case there is a lock on the file (cache is being written) wait for it to finish
+            $file = fopen($file_info['path'], 'r');
+
+            // a shared lock isn't blocking other instances accessing the file
+            $lock = flock($file, LOCK_SH);
+
             $data = file_get_contents($file_info['path']);
+
+            // release lock
+            flock($file, LOCK_UN);
+            fclose($file);
 
             // if data was gz-compressed
             if ($this->cache_gzcompress) {
@@ -334,7 +345,8 @@ class Zebra_Cache {
         }
 
         // cache content to file
-        file_put_contents($this->path . md5($key) . '-' . $timeout . $this->extension, $data);
+        // get an exclusive lock on the file while doing this so that other instances cannot write at the same time
+        file_put_contents($this->path . md5($key) . '-' . $timeout . $this->extension, $data, LOCK_EX);
 
         return true;
 
