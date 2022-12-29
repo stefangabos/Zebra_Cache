@@ -2,7 +2,7 @@
 
 # Zebra Cache &nbsp;[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=A+simple,+file+based,+lightweight+PHP+library+for+caching+data&url=https://github.com/stefangabos/Zebra_Cache&via=stefangabos&hashtags=php,cache)
 
-*A simple, file based, lightweight PHP library for caching data*
+*A simple, file based, lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load.*
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_cache/v/stable)](https://packagist.org/packages/stefangabos/zebra_cache) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_cache/downloads)](https://packagist.org/packages/stefangabos/zebra_cache) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/monthly)](https://packagist.org/packages/stefangabos/zebra_cache) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/daily)](https://packagist.org/packages/stefangabos/zebra_cache) [![License](https://poser.pugx.org/stefangabos/zebra_cache/license)](https://packagist.org/packages/stefangabos/zebra_cache)
 
