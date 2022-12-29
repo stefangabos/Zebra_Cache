@@ -41,7 +41,7 @@ class Zebra_Cache {
      *
      *  Default is `FALSE`
      *
-     *  @var boolean
+     *  @var mixed
      */
     public $cache_encrypt = false;
 

@@ -58,14 +58,14 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h2>Class: <strong>Zebra_Cache</strong></h2>
 <h6><strong>source file:</strong> /Zebra_Cache.php</h6>
 <pre></pre>
-<p>A simple, file based, lightweight PHP library for caching data.<p>Read more <a href="https://github.com/stefangabos/Zebra_Cache/">here</a>.</p>
+<p>A simple, file based, lightweight PHP caching library that uses file locking to ensure proper functionality under   heavy load.<p>Read more <a href="https://github.com/stefangabos/Zebra_Cache/">here</a>.</p>
 <h4>Author(s):</h4>
 <ul>
 <li>Stefan Gabos <br><a href="mailto:contact@stefangabos.ro">contact@stefangabos.ro</a></li>
 </ul>
 <h4>Version:</h4>
 <ul>
-<li>1.2.0 (last revision: August 17, 2022)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
+<li>1.3.0 (last revision: December 29, 2022)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
 </ul>
 <h4>License:</h4>
 <ul>
@@ -102,7 +102,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 <div class="clear"></div>
 </div>
 <h3 id="class_vars">Class properties</h3>
-<h4 id="var$cache_encrypt" class="variable"><span><em>boolean</em></span> $cache_encrypt =  <span class="value">false</span></h4>
+<h4 id="var$cache_encrypt" class="variable"><span><em>mixed</em></span> $cache_encrypt =  <span class="value">false</span></h4>
 <div class="doc_block">
 <p>Whether content in cache files should be <a href="https://www.php.net/manual/en/function.openssl-encrypt.php">openssl_encrypt</a>-ed   using the <code>aes-256-cbc</code>cipher method.</p>
 <p>If you want this enabled you must set its value to a unique cipher to be used for encrypting and decrypting the data.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;use&nbsp;something&nbsp;random,&nbsp;hard&nbsp;to&nbsp;guess</span></div></li>
@@ -372,7 +372,7 @@ boolean
 </tr>
 </table>
 <div id="doc_footer">
-Documentation generated on <span>Wed, 17 Aug 22</span>
+Documentation generated on <span>Thu, 29 Dec 22</span>
 </div>
 </div>
 <!-- Global site tag (gtag.js) - Google Analytics -->
