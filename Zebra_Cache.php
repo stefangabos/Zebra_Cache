@@ -105,6 +105,8 @@ class Zebra_Cache {
      *
      *                                  >   This can be changed later by updating the {@link extension} property.
      *
+     *                                  Default is `''` (an empty string)
+     *
      *  @return void
      */
     public function __construct($path, $extension = '') {
@@ -208,7 +210,7 @@ class Zebra_Cache {
     }
 
     /**
-     *  Checks whether a cached, non-expired value exists for the given key.
+     *  Checks whether a cached, non-expired value exists for the given key, and returns information about it.
      *
      *  <code>
      *  if ($cached_info = $cache->has('my-key')) {
@@ -284,6 +286,9 @@ class Zebra_Cache {
      *  @param  mixed       $data       The data to be stored.
      *
      *                                  The data will be stored in {@link https://www.php.net/manual/en/function.serialize.php serialized} form.
+     *
+     *                                  >   Optionally, stored data can be {@link $cache_encrypt encrypted} and/or
+     *                                      {@link cache_gzcompress compressed}.
      *
      *                                  >   Anything that evaluates as *falsy*  will not be cached!<br>
      *                                      These values are:<br>

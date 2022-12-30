@@ -185,7 +185,7 @@ void
 <tr>
 <td><em>string</em></td>
 <td><strong>$extension</strong></td>
-<td><p>(Optional) The extension to suffix cache files with.</p><p class="highlight">This can be changed later by updating the <a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a> property.</p></td>
+<td><p>(Optional) The extension to suffix cache files with.</p><p class="highlight">This can be changed later by updating the <a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a> property.</p><p>Default is <code>''</code> (an empty string)</p></td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -274,7 +274,7 @@ boolean
 <span class="src-var">$key</span>
 ) 
 </p>
-<p>Checks whether a cached, non-expired value exists for the given key.</p>
+<p>Checks whether a cached, non-expired value exists for the given key, and returns information about it.</p>
 <p><ol class="code"><li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$cached_info&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodhas">has</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-str">'&lt;pre&gt;'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
@@ -349,7 +349,7 @@ boolean
 <tr>
 <td><em>mixed</em></td>
 <td><strong>$data</strong></td>
-<td><p>The data to be stored.</p><p>The data will be stored in <a href="https://www.php.net/manual/en/function.serialize.php">serialized</a> form.</p><p class="highlight">Anything that evaluates as <em>falsy</em>  will not be cached!<br>                                       These values are:<br>                                       <br>the keyword <code>false</code>                                       <br>the integer zero (<code>0</code>)                                       <br>the floating-point number zero (<code>0.0</code>)                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the <code>NULL</code> value                                       <br>an empty array (an array with zero elements)</p></td>
+<td><p>The data to be stored.</p><p>The data will be stored in <a href="https://www.php.net/manual/en/function.serialize.php">serialized</a> form.</p><p class="highlight">Optionally, stored data can be <a href="../Zebra_Cache/Zebra_Cache.html#var$cache_encrypt">encrypted</a> and/or                                       <a href="../Zebra_Cache/Zebra_Cache.html#var$cache_gzcompress">compressed</a>.</p><p class="highlight">Anything that evaluates as <em>falsy</em>  will not be cached!<br>                                       These values are:<br>                                       <br>the keyword <code>false</code>                                       <br>the integer zero (<code>0</code>)                                       <br>the floating-point number zero (<code>0.0</code>)                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the <code>NULL</code> value                                       <br>an empty array (an array with zero elements)</p></td>
 </tr>
 <tr>
 <td><em>integer</em></td>
