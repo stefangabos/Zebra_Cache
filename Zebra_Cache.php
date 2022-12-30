@@ -1,8 +1,7 @@
 <?php
 
 /**
- *  A simple, file based, lightweight PHP caching library that uses file locking to ensure proper functionality under
- *  heavy load.
+ *  A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load
  *
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
