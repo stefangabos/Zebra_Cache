@@ -1,3 +1,7 @@
+## version 1.3.1 (December 30, 2022)
+
+- various fixes to the documentation and examples
+
 ## version 1.3.0 (December 29, 2022)
 
 - implemented file locking to ensure proper functionality under heavy load
