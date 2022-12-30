@@ -22,7 +22,6 @@ Check out the [awesome documentation](https://stefangabos.github.io/Zebra_Cache/
 Your support is greatly appreciated and it keeps me motivated continue working on open source projects. If you enjoy this project please star it by clicking on the star button at the top of the page. If you're feeling generous, you can also buy me a coffee through PayPal or become a sponsor.
 **Thank you for your support!** 🎉
 
-
 [<img src="https://img.shields.io/github/stars/stefangabos/zebra_cache?color=green&label=star%20it%20on%20GitHub" width="132" height="20" alt="Star it on GitHub">](https://github.com/stefangabos/Zebra_Cache) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=W6MCFT65DRN64) [<img src="https://img.shields.io/badge/-Sponsor-fafbfc?logo=GitHub%20Sponsors">](https://github.com/sponsors/stefangabos)
 
 
@@ -50,8 +49,6 @@ require_once 'path/to/Zebra_Cache.php';
 
 ## How to use
 
-### Caching data:
-
 ```php
 // instantiate the library
 $cache = new Zebra_Cache('path/to/store/cache-files/');
@@ -67,9 +64,8 @@ if (!($some_data = $cache->get('my-key'))) {
 
 }
 
-// $data now holds the values either fresh or from cache
+// $some_data now holds the values, either fresh or from cache
 ```
-
 
 ### Getting information about cached data
 
