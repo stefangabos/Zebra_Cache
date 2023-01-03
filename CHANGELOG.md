@@ -1,3 +1,7 @@
+## version 1.3.2 (January 03, 2023)
+
+- added new argument to the `get` method for being able to get the cached data even when it is expired (useful for when the caching itself is done by a different process)
+
 ## version 1.3.1 (December 30, 2022)
 
 - various fixes to the documentation and examples
