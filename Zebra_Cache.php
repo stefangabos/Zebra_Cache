@@ -6,8 +6,8 @@
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.3.1 (last revision: December 30, 2022)
- *  @copyright  © 2022 Stefan Gabos
+ *  @version    1.3.2 (last revision: January 03, 2023)
+ *  @copyright  © 2022 - 2023 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
  */
@@ -164,15 +164,19 @@ class Zebra_Cache {
      *  // at this point $some_data will always contain your data, either from cache, or fresh
      *  </code>
      *
-     *  @param  string      $key    The key for which to return the cached value.
+     *  @param  string      $key            The key for which to return the cached value.
      *
-     *  @return boolean             Returns the cached content associated with the given key **if** the associated cache
-     *                              file exists **and** it is not expired, or `FALSE` otherwise.
+     *  @param  boolean     $ignore_expiry  (Optional) If set to `TRUE` the cached value will be returned even if it is
+     *                                      expired.<br>Useful when you have a different process {@link set setting} the
+     *                                      cache.
+     *
+     *  @return boolean     Returns the cached content associated with the given key **if** the associated cache file
+     *                      exists **and** it is not expired, or `FALSE` otherwise.
      */
-    public function get($key) {
+    public function get($key, $ignore_expiry = false) {
 
         // if cache file exists and it is not expired, return the cached content
-        if (($file_info = $this->_get_file_info($key)) && time() - filemtime($file_info['path']) < $file_info['timeout']) {
+        if (($file_info = $this->_get_file_info($key)) && ($ignore_expiry || time() - filemtime($file_info['path']) < $file_info['timeout'])) {
 
             // in case there is a lock on the file (cache is being written) wait for it to finish
             $file = fopen($file_info['path'], 'r');
