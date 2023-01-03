@@ -65,7 +65,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 </ul>
 <h4>Version:</h4>
 <ul>
-<li>1.3.1 (last revision: December 30, 2022)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
+<li>1.3.2 (last revision: January 03, 2023)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
 </ul>
 <h4>License:</h4>
 <ul>
@@ -73,7 +73,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 </ul>
 <h4>Copyright:</h4>
 <ul>
-<li>© 2022 Stefan Gabos</li>
+<li>© 2022 - 2023 Stefan Gabos</li>
 </ul>
 <div id="top" class="doc_toc">
 <div class="left">
@@ -230,6 +230,13 @@ boolean
 (
 <span class="src-key">string</span>
 <span class="src-var">$key</span>
+, 
+[ 
+<span class="src-key">boolean</span>
+<span class="src-var">$ignore_expiry</span>
+=
+<span class="src-key">false</span>
+]
 ) 
 </p>
 <p>Retrieves the cached value for the given key <strong>if</strong> the associated cache file exists <strong>and</strong> it is not expired.</p>
@@ -253,12 +260,17 @@ boolean
 <td><strong>$key</strong></td>
 <td>The key for which to return the cached value.</td>
 </tr>
+<tr>
+<td><em>boolean</em></td>
+<td><strong>$ignore_expiry</strong></td>
+<td>(Optional) If set to <code>TRUE</code> the cached value will be returned even if it is                                       expired.<br>Useful when you have a different process <a href="../Zebra_Cache/Zebra_Cache.html#methodset">setting</a> the                                       cache.</td>
+</tr>
 </table>
 <h5>Tags</h5>
 <table>
 <tr>
 <td><strong>return:</strong>&nbsp;&nbsp;</td>
-<td>Returns the cached content associated with the given key <strong>if</strong> the associated cache                               file exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</td>
+<td>Returns the cached content associated with the given key <strong>if</strong> the associated cache file                       exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -372,7 +384,7 @@ boolean
 </tr>
 </table>
 <div id="doc_footer">
-Documentation generated on <span>Fri, 30 Dec 22</span>
+Documentation generated on <span>Tue, 03 Jan 23</span>
 </div>
 </div>
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-0301ZD47Q7"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-0301ZD47Q7');</script></body>
