@@ -1,7 +1,5 @@
 <?php
 
-namespace stefangabos\Zebra_Cache;
-
 /**
  *  A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load
  *
