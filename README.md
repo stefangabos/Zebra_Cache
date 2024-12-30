@@ -51,7 +51,7 @@ require_once 'path/to/Zebra_Cache.php';
 
 ```php
 // instantiate the library
-$cache = new Zebra_Cache('path/to/store/cache-files/');
+$cache = new stefangabos\Zebra_Cache\Zebra_Cache('path/to/store/cache-files/');
 
 // if a cached, non-expired value for the sought key does not exist
 if (!($some_data = $cache->get('my-key'))) {

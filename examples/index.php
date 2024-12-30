@@ -3,7 +3,7 @@
 require '../Zebra_Cache.php';
 
 // instantiate the class and tell it to store cache files in the "cache" folder
-$cache = new Zebra_Cache('cache');
+$cache = new stefangabos\Zebra_Cache\Zebra_Cache('cache');
 
 // this is the file that we are going to download
 // it is a 100k test file with nothing but empty space in it
