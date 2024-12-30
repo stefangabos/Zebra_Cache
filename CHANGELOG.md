@@ -1,3 +1,7 @@
+## version 1.4.1 (December 30, 2024)
+
+- updated examples and documentation to feature the newly added namespace
+
 ## version 1.4.0 (December 30, 2024)
 
 - the library is now namespace-d and uses standard psr-4 autoloading
