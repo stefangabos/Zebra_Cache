@@ -1,3 +1,7 @@
+## version 1.4.0 (December 30, 2024)
+
+- the library is now namespace-d and uses standard psr-4 autoloading
+
 ## version 1.3.2 (January 03, 2023)
 
 - added new argument to the `get` method for being able to get the cached data even when it is expired (useful for when the caching itself is done by a different process)
