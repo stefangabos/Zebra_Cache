@@ -17,9 +17,9 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "classmap": [
-            "Zebra_Cache.php"
-        ]
+        "psr-4": {
+            "stefangabos\\Zebra_Cache\\": "./"
+        }
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8",
