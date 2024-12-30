@@ -8,8 +8,8 @@ namespace stefangabos\Zebra_Cache;
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.3.2 (last revision: January 03, 2023)
- *  @copyright  © 2022 - 2023 Stefan Gabos
+ *  @version    1.4.0 (last revision: December 30, 2024)
+ *  @copyright  © 2022 - 2024 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
  */
