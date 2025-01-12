@@ -1,4 +1,4 @@
-## version 2.0.0 (TBA)
+## version 2.0.0 (January 12, 2025)
 
 - added support for multiple storage engines - file based, Redis and Memcache
 - other storage engines can easily be addded
