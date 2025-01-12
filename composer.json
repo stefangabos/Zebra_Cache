@@ -1,8 +1,8 @@
 {
     "name": "stefangabos/zebra_cache",
     "type": "library",
-    "description": "A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load.",
-    "keywords": ["php", "cache", "caching", "filesystem"],
+    "description": "A lightweight and flexible PHP caching library with support for file, Redis, and Memcached storage backends.",
+    "keywords": ["php", "cache", "caching", "filesystem", "redis", "memcache", "performance", "cache library"],
     "homepage": "https://github.com/stefangabos/Zebra_Cache",
     "license": "LGPL-3.0-only",
     "authors": [
