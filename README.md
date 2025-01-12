@@ -49,7 +49,7 @@ composer require stefangabos/zebra_cache
 composer require stefangabos/zebra_cache:dev-master
 ```
 
-## How to use
+## Initializing storage engine
 
 Initializing **file-based storage**:
 
@@ -101,6 +101,7 @@ $memcache->addServer('localhost', 11211);
 // pass the $memcache instance as argument to initialize the Memcached-based storage
 $storage = new Storage_Memcached($memcache);
 ```
+## Initializing the main library and setting/getting values
 
 Once the storage engine is initialized:
 
