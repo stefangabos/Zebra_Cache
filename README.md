@@ -2,15 +2,19 @@
 
 # Zebra Cache &nbsp;[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=A+file-based+lightweight+PHP+caching+library+that+uses+file+locking+to+ensure+proper+functionality+under+heavy+load&url=https://github.com/stefangabos/Zebra_Cache&via=stefangabos&hashtags=php,cache)
 
-*A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load.*
+*A lightweight and flexible PHP caching library with support for file, Redis, and Memcached storage backends.*
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_cache/v/stable)](https://packagist.org/packages/stefangabos/zebra_cache) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_cache/downloads)](https://packagist.org/packages/stefangabos/zebra_cache) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/monthly)](https://packagist.org/packages/stefangabos/zebra_cache) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/daily)](https://packagist.org/packages/stefangabos/zebra_cache) [![License](https://poser.pugx.org/stefangabos/zebra_cache/license)](https://packagist.org/packages/stefangabos/zebra_cache)
 
+It supports common caching operations such as storing, retrieving and deleting data, as well as checking for the existence of a cache entry.
+
 ## Features
 
-- uses file locking to ensure proper functionality under heavy load - meaning that in a concurent environment, writing of cache file will acquire an exclusive lock on the file and reads will wait for the writing to finish before fetching the cached data
-- automatic serialization and compression of cache data to save space and improve performance
+- pluggable architecture for using different storage mechanisms
+- flexible key-value caching
 - automatic expiration of cache items based on a specified time-to-live (TTL) value
+- extensible design allowing developers to integrate new storage backends
+- easy-to-use API with consistent behavior across different backends
 - support for multiple instances, allowing you to use different cache configurations for different parts of your application
 
 ## :notebook_with_decorative_cover: Documentation
@@ -27,7 +31,9 @@ Your support is greatly appreciated and it keeps me motivated continue working o
 
 ## Requirements
 
-PHP 5.3.0+
+PHP 7.0.0+
+
+Use version [1.3.2](https://github.com/stefangabos/Zebra_Cache/releases/tag/1.3.2) if you need support for PHP 5.3.0+
 
 ## Installation
 
@@ -41,46 +47,93 @@ composer require stefangabos/zebra_cache
 composer require stefangabos/zebra_cache:dev-master
 ```
 
-Or you can install it manually by downloading the latest version, unpacking it, and then including it in your project
-
-```php
-require_once 'path/to/Zebra_Cache.php';
-```
-
 ## How to use
 
+Initializing **file-based storage**:
+
 ```php
-// instantiate the library
-$cache = new stefangabos\Zebra_Cache\Zebra_Cache('path/to/store/cache-files/');
+// make sure you have this at the top of your script
+use stefangabos\Zebra_Cache\Zebra_Cache;
+use stefangabos\Zebra_Cache\Storage\Storage_File;
+
+// initialize file-based storage
+$storage = new Storage_File('/path/to/cache/folder');
+```
+
+Initializing **Redis-based storage**:
+
+```php
+// make sure you have this at the top of your script
+use stefangabos\Zebra_Cache\Zebra_Cache;
+use stefangabos\Zebra_Cache\Storage\Storage_Redis;
+
+// connect to a Redis server
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
+
+// pass the $redis instance as argument to initialize the Redis-based storage
+$storage = new Storage_Redis($redis);
+
+// finally, instantiate the caching library using the storage engine configured above
+$cache = new stefangabos\Zebra_Cache\Zebra_Cache($storage);
+```
+
+Initializing **Memcached-based storage**:
+
+There are two PHP extensions for working with [Memcached](https://memcached.org/): the [memcache](https://www.php.net/manual/en/book.memcache.php) extension, which is older and less commonly used, and [memcached](https://www.php.net/manual/en/book.memcached.php) which is generally preferred for better features and compatibility.
+This library supports both.
+
+```php
+// make sure you have this at the top of your script
+use stefangabos\Zebra_Cache\Zebra_Cache;
+use stefangabos\Zebra_Cache\Storage\Storage_Memcached;
+
+// connect to a Memcached server (using the `memcached` extension)
+$memcache = new Memcached();
+$memcache->addServer('localhost', 11211);
+
+// OR using the `memcache` extension
+$memcache = new Memcache();
+$memcache->addServer('localhost', 11211);
+
+// pass the $memcache instance as argument to initialize the Memcached-based storage
+$storage = new Storage_Memcached($memcache);
+```
+
+Once the storage engine is initialized:
+
+```php
+// instantiate the caching library using the chosen storage engine
+$cache = new Zebra_Cache($storage);
 
 // if a cached, non-expired value for the sought key does not exist
-if (!($some_data = $cache->get('my-key'))) {
+if (!($my_data = $cache->get('my-key'))) {
 
     // do whatever you need to retrieve data
-    $some_data = 'get this data';
+    $my_data = 'my data';
 
-    // cache the values for one hour (3600 seconds)
-    $cache->set('my-key', $some_data, 3600);
+    // cache the values for one 10 minutes (10 x 60 seconds)
+    $cache->set('my-key', $my_data, 10 * 600);
 
 }
 
-// $some_data now holds the values, either fresh or from cache
+// at this point $my_data will always contain data, either from cache, or fresh
 ```
 
 ### Getting information about cached data
 
 ```php
-if ($cached_info = $cache->has('my-key')) {
-
-    // will output something in the  likes of
-    //  Array (
-    //    'path'     => '',  //  path to the cache file
-    //    'timeout'  => '',  //  the number of seconds the cache was supposed to be valid
-    //    'ttl'      => '',  //  number of seconds remaining until the cache expires
-    //  )
+if ($info = $cache->has('my-key')) {
 
     print_r('<pre>');
-    print_r($cached_info);
+    print_r($info);
+
+    // for file-based storage the output will look something like
+    // [
+    //  'path'     => '',  //  path to the cache file
+    //  'timeout'  => '',  //  the number of seconds the cache was supposed to be valid
+    //  'ttl'      => '',  //  number of seconds remaining until the cache expires
+    // ]
 
 }
 ```
