@@ -1,3 +1,9 @@
+## version 2.0.0 (TBA)
+
+- added support for multiple storage engines - file based, Redis and Memcache
+- other storage engines can easily be addded
+- minimum required version of PHP is `7`
+
 ## version 1.4.1 (December 30, 2024)
 
 - updated examples and documentation to feature the newly added namespace
