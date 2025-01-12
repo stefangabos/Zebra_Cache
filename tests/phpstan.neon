@@ -1,0 +1,8 @@
+parameters:
+	level: 6
+	paths:
+		- ../Zebra_Cache.php
+		- ../Storage/Storage_File.php
+		- ../Storage/Storage_Redis.php
+		- ../Storage/Storage_Memcached.php
+		- ../Storage/Storage_Interface.php

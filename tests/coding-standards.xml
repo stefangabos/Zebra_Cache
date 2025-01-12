@@ -6,7 +6,11 @@
 
     <description>Coding standards</description>
 
-    <file>Zebra_Cache.php</file>
+    <file>../Zebra_Cache.php</file>
+    <file>../Storage/Storage_Interface.php</file>
+    <file>../Storage/Storage_File.php</file>
+    <file>../Storage/Storage_Redis.php</file>
+    <file>../Storage/Storage_Memcached.php</file>
 
     <ini name="memory_limit" value="64M"/>
     <arg name="report-width" value="130"/>
