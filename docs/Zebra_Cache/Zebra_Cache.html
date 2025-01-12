@@ -40,6 +40,16 @@
 <ul>
 <li><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></li>
 </ul>
+<p class="subpackage">&#8627; <strong>Storage</strong></p>
+<ul>
+<li class="subpackage"><a href="../Zebra_Cache/Storage/Storage_File.html">Storage_File</a></li>
+<li class="subpackage"><a href="../Zebra_Cache/Storage/Storage_Memcached.html">Storage_Memcached</a></li>
+<li class="subpackage"><a href="../Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a></li>
+</ul>
+<p><strong>Interfaces:</strong></p>
+<ul>
+<li><a href="../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></li>
+</ul>
 <p class="hello-separator"></p>
 <p class="hello">
 <img src="https://avatars1.githubusercontent.com/u/741165?s=460&u=95c38afa1015f9ed705f3ad9848b3c2687b547db&v=4" width="131" alt="Stefan Gabos">
@@ -53,19 +63,19 @@ I have a few other projects that you might be interested in — <a href="https:/
 </p>
 </div>
 </td>
-<td style="background: #FFF">
+<td style="background: #FFF; width: 100%">
 <div id="doc_content">
 <h2>Class: <strong>Zebra_Cache</strong></h2>
 <h6><strong>source file:</strong> /Zebra_Cache.php</h6>
 <pre></pre>
-<p>A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load<p>Read more <a href="https://github.com/stefangabos/Zebra_Cache/">here</a>.</p>
+<p>A lightweight PHP caching library supporting multiple storage mechanisms.<p>This library provides a unified interface for caching data, allowing the use of various storage backends like   file-based caching, Redis, Memcached, or custom implementations.</p><p>It supports common caching operations such as storing, retrieving and deleting data, as well as checking for the   existence of a cache entry.</p><p><strong>Features</strong>:</p><ul><li>pluggable architecture for using different storage mechanisms</li><li>flexible key-value caching</li><li>automatic expiration of cache items based on a specified time-to-live (TTL) value</li><li>extensible design allowing developers to integrate new storage backends by implementing the <a href="../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></li><li>easy-to-use API with consistent behavior across different backends</li><li>support for multiple instances, allowing you to use different cache configurations for different parts of your application</li></ul><p>   Read more <a href="https://github.com/stefangabos/Zebra_Cache/">here</a>.</p>
 <h4>Author(s):</h4>
 <ul>
 <li>Stefan Gabos <br><a href="mailto:contact@stefangabos.ro">contact@stefangabos.ro</a></li>
 </ul>
 <h4>Version:</h4>
 <ul>
-<li>1.4.0 (last revision: December 30, 2024)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
+<li>2.0.0 (last revision: January 12, 2025)<br>See <a href="https://github.com/stefangabos/Zebra_Cache/blob/master/CHANGELOG.md" class="projects-homepage">CHANGELOG</a></li>
 </ul>
 <h4>License:</h4>
 <ul>
@@ -73,17 +83,14 @@ I have a few other projects that you might be interested in — <a href="https:/
 </ul>
 <h4>Copyright:</h4>
 <ul>
-<li>© 2022 - 2024 Stefan Gabos</li>
+<li>© 2022 - 2025 Stefan Gabos</li>
 </ul>
 <div id="top" class="doc_toc">
 <div class="left">
 <h3>Properties</h3>
 <ul>
-<li><a href="#var$cache_encrypt">$cache_encrypt</a></li>
 <li><a href="#var$cache_gzcompress">$cache_gzcompress</a></li>
 <li><a href="#var$default_timeout">$default_timeout</a></li>
-<li><a href="#var$extension">$extension</a></li>
-<li><a href="#var$path">$path</a></li>
 </ul>
 </div>
 <div class="left">
@@ -102,42 +109,19 @@ I have a few other projects that you might be interested in — <a href="https:/
 <div class="clear"></div>
 </div>
 <h3 id="class_vars">Class properties</h3>
-<h4 id="var$cache_encrypt" class="variable"><span><em>mixed</em></span> $cache_encrypt =  <span class="value">false</span><span class="access public">public</span></h4>
-<div class="doc_block">
-<p>Whether content in cache files should be <a href="https://www.php.net/manual/en/function.openssl-encrypt.php">openssl_encrypt</a>-ed   using the <code>aes-256-cbc</code>cipher method.</p>
-<p>If you want this enabled you must set its value to a unique cipher to be used for encrypting and decrypting the data.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;use&nbsp;something&nbsp;random,&nbsp;hard&nbsp;to&nbsp;guess</span></div></li>
-<li><div class="src-line"><span class="src-var">$cache</span><span class="src-sym">-&gt;</span><span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html#var$cache_encrypt">cache_encrypt</a>&nbsp;</span>=&nbsp;<span class="src-str">'Z&amp;y&amp;m^VBPJmCVtya'</span><span class="src-sym">;</span></div></li>
-</ol><p>Default is <code>FALSE</code></p>
-<a href="#top" class="top">top</a>
-<div class="clear"></div>
-</div>
 <h4 id="var$cache_gzcompress" class="variable"><span><em>boolean</em></span> $cache_gzcompress =  <span class="value">false</span><span class="access public">public</span></h4>
 <div class="doc_block">
-<p>Whether cache files should be <a href="https://www.php.net/manual/en/function.gzcompress.php">gzcompress</a>-ed.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;enable&nbsp;gz-compressing,&nbsp;saving&nbsp;disk&nbsp;space</span></div></li>
+<p>Whether data should be <a href="https://www.php.net/manual/en/function.gzcompress.php">gzcompress</a>-ed before   being <a href="../Zebra_Cache/Zebra_Cache.html#methodset">set()</a> (using the function's default settings).</p>
+<p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;enable&nbsp;gz-compressing</span></div></li>
 <li><div class="src-line"><span class="src-var">$cache</span><span class="src-sym">-&gt;</span><span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html#var$cache_gzcompress">cache_gzcompress</a>&nbsp;</span>=&nbsp;<span class="src-id">true</span><span class="src-sym">;</span></div></li>
-</ol><p>Default is <code>FALSE</code></p>
+</ol><p class="highlight">Note that the library will not check if the stored data is compressed or not - if this property is set       to <code>TRUE</code>, it will always try to uncompress data when using <a href="../Zebra_Cache/Zebra_Cache.html#methodget">get()</a>! Therefore, be careful not to mix       compressed and uncompressed data.</p><p>Default is <code>FALSE</code></p>
 <a href="#top" class="top">top</a>
 <div class="clear"></div>
 </div>
-<h4 id="var$default_timeout" class="variable"><span><em>integer</em></span> $default_timeout =  <span class="value">3600</span><span class="access public">public</span></h4>
+<h4 id="var$default_timeout" class="variable"><span><em>integer</em></span> $default_timeout =  <span class="value">300</span><span class="access public">public</span></h4>
 <div class="doc_block">
 <p>The default number of seconds after which cached data will be considered as expired.</p>
-<p>This is used by the <a href="../Zebra_Cache/Zebra_Cache.html#methodset">set()</a> method when the <code>timeout</code> argument is omitted.</p><p>Default is <code>3600</code> (one hour)</p>
-<a href="#top" class="top">top</a>
-<div class="clear"></div>
-</div>
-<h4 id="var$extension" class="variable"><span><em>string</em></span> $extension =  <span class="value">''</span><span class="access public">public</span></h4>
-<div class="doc_block">
-<p>The extension to suffix cache files with.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-var">$cache</span><span class="src-sym">-&gt;</span><span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a>&nbsp;</span>=&nbsp;<span class="src-str">'.cache'</span><span class="src-sym">;</span></div></li>
-</ol><p class="highlight">The <code>. (dot)</code> is not implied - you need to also add the dot if you need it</p><p>Default is <code>''</code> (an empty string, nothing)</p>
-<a href="#top" class="top">top</a>
-<div class="clear"></div>
-</div>
-<h4 id="var$path" class="variable"><span><em>string</em></span> $path =  <span class="value">''</span><span class="access public">public</span></h4>
-<div class="doc_block">
-<p>The path where the cache files to be stored at.</p>
+<p>This is used by the <a href="../Zebra_Cache/Zebra_Cache.html#methodset">set()</a> method when the <code>timeout</code> argument is omitted.</p><p>Default is <code>300</code> (5 minutes)</p>
 <a href="#top" class="top">top</a>
 <div class="clear"></div>
 </div>
@@ -145,47 +129,76 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h4 id="method__construct" class="method"><span><em>constructor</em></span> __construct()</h4>
 <div class="doc_block">
 <p class="code">
-void
+Zebra_Cache
 <span class="src-var">__construct</span>
 (
-<span class="src-key">string</span>
-<span class="src-var">$path</span>
-, 
-[ 
-<span class="src-key">string</span>
-<span class="src-var">$extension</span>
-=
-<span class="src-str">''</span>
-]
+<span class="src-key"><a href="../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></span>
+<span class="src-var">$storage</span>
 ) 
 </p>
-<p>Constructor of the class.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-var">$cache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span><span class="src-sym">(</span><span class="src-str">'path/to/store/cache-files/'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<p>Initializes the cache system with the provided storage backend.</p>
+<p>Initializing <strong>file-based storage</strong>:</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;make&nbsp;sure&nbsp;you&nbsp;have&nbsp;this&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;your&nbsp;script</span></div></li>
+<li><div class="src-line">use&nbsp;<span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id">Storage</span>\<span class="src-id"><a href="../Zebra_Cache/Storage/Storage_File.html">Storage_File</a></span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;initialize&nbsp;file-based&nbsp;storage</span></div></li>
+<li><div class="src-line"><span class="src-var">$storage&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../Zebra_Cache/Storage/Storage_File.html">Storage_File</a></span><span class="src-sym">(</span><span class="src-str">'/path/to/cache/folder'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;or,&nbsp;if&nbsp;you&nbsp;don't&nbsp;want&nbsp;the&nbsp;&quot;use&quot;&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;the&nbsp;script,&nbsp;initialize&nbsp;the&nbsp;file-based&nbsp;storage&nbsp;like&nbsp;this</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;$storage&nbsp;=&nbsp;new&nbsp;stefangabos\Zebra_Cache\Storage\Storage_File('/path/to/cache/folder');</span></div></li>
+</ol><p>Initializing <strong>Redis-based storage</strong>:</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;make&nbsp;sure&nbsp;you&nbsp;have&nbsp;this&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;your&nbsp;script</span></div></li>
+<li><div class="src-line">use&nbsp;<span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id">Storage</span>\<span class="src-id"><a href="../Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a></span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;connect&nbsp;to&nbsp;a&nbsp;Redis&nbsp;server</span></div></li>
+<li><div class="src-line"><span class="src-var">$redis&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Redis</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-var">$redis</span><span class="src-sym">-&gt;</span><span class="src-id">connect</span><span class="src-sym">(</span><span class="src-str">'127.0.0.1'</span><span class="src-sym">,&nbsp;</span><span class="src-num">6379</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;pass&nbsp;the&nbsp;$redis&nbsp;instance&nbsp;as&nbsp;argument&nbsp;to&nbsp;initialize&nbsp;the&nbsp;Redis-based&nbsp;storage</span></div></li>
+<li><div class="src-line"><span class="src-var">$storage&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a></span><span class="src-sym">(</span><span class="src-var">$redis</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;or,&nbsp;if&nbsp;you&nbsp;don't&nbsp;want&nbsp;the&nbsp;&quot;use&quot;&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;the&nbsp;script,&nbsp;initialize&nbsp;the&nbsp;Redis-based&nbsp;storage&nbsp;like&nbsp;this</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;$storage&nbsp;=&nbsp;new&nbsp;stefangabos\Zebra_Cache\Storage\Storage_Redis($redis);</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;finally,&nbsp;instantiate&nbsp;the&nbsp;caching&nbsp;library&nbsp;using&nbsp;the&nbsp;storage&nbsp;engine&nbsp;configured&nbsp;above</span></div></li>
+<li><div class="src-line"><span class="src-var">$cache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span><span class="src-sym">(</span><span class="src-var">$storage</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol><p>Initializing <strong>Memcached-based storage</strong>:</p><p>There are two PHP extensions for working with Memcached: the <code>memcache</code> extension, which is older and less commonly   used, and <code>memcached</code> which is generally preferred for better features and compatibility.</p><p>This library supports both.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;make&nbsp;sure&nbsp;you&nbsp;have&nbsp;this&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;your&nbsp;script</span></div></li>
+<li><div class="src-line">use&nbsp;<span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id">Storage</span>\<span class="src-id"><a href="../Zebra_Cache/Storage/Storage_Memcached.html">Storage_Memcached</a></span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;connect&nbsp;to&nbsp;a&nbsp;Memcached&nbsp;server&nbsp;(using&nbsp;the&nbsp;`memcached`&nbsp;extension)</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Memcached</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache</span><span class="src-sym">-&gt;</span><span class="src-id">addServer</span><span class="src-sym">(</span><span class="src-str">'localhost'</span><span class="src-sym">,&nbsp;</span><span class="src-num">11211</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;OR&nbsp;using&nbsp;the&nbsp;`memcache`&nbsp;extension</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Memcache</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache</span><span class="src-sym">-&gt;</span><span class="src-id">addServer</span><span class="src-sym">(</span><span class="src-str">'localhost'</span><span class="src-sym">,&nbsp;</span><span class="src-num">11211</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;pass&nbsp;the&nbsp;$memcache&nbsp;instance&nbsp;as&nbsp;argument&nbsp;to&nbsp;initialize&nbsp;the&nbsp;Memcached-based&nbsp;storage</span></div></li>
+<li><div class="src-line"><span class="src-var">$storage&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../Zebra_Cache/Storage/Storage_Memcached.html">Storage_Memcached</a></span><span class="src-sym">(</span><span class="src-var">$memcache</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;or,&nbsp;if&nbsp;you&nbsp;don't&nbsp;want&nbsp;the&nbsp;&quot;use&quot;&nbsp;at&nbsp;the&nbsp;top&nbsp;of&nbsp;the&nbsp;script,</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;initialize&nbsp;the&nbsp;Memcached-based&nbsp;storage&nbsp;like&nbsp;this</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;$storage&nbsp;=&nbsp;new&nbsp;stefangabos\Zebra_Cache\Storage\Storage_Memcached($memcache);</span></div></li>
+</ol><p>Once the storage engine is initialized:</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;instantiate&nbsp;the&nbsp;caching&nbsp;library&nbsp;using&nbsp;the&nbsp;chosen&nbsp;storage&nbsp;engine</span></div></li>
+<li><div class="src-line"><span class="src-var">$cache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">stefangabos</span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id"><a href="../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span><span class="src-sym">(</span><span class="src-var">$storage</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
-<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;do&nbsp;whatever&nbsp;you&nbsp;need&nbsp;to&nbsp;retrieve&nbsp;data</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-str">'get&nbsp;this&nbsp;data'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-str">'my&nbsp;data'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;hour&nbsp;(3600&nbsp;seconds)</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;10&nbsp;minutes&nbsp;(10&nbsp;x&nbsp;60&nbsp;seconds)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$my_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">10&nbsp;</span>*&nbsp;<span class="src-num">600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-sym">}</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$my_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
 </ol>
 <h5>Arguments</h5>
 <table>
 <tr>
-<td><em>string</em></td>
-<td><strong>$path</strong></td>
-<td><p>The path where the cache files to be stored at.</p><p class="highlight">This can be changed later by updating the <a href="../Zebra_Cache/Zebra_Cache.html#var$path">path</a> property.</p></td>
-</tr>
-<tr>
-<td><em>string</em></td>
-<td><strong>$extension</strong></td>
-<td><p>(Optional) The extension to suffix cache files with.</p><p class="highlight">This can be changed later by updating the <a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a> property.</p><p>Default is <code>''</code> (an empty string)</p></td>
+<td><em><a href="../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></em></td>
+<td><strong>$storage</strong></td>
+<td><p>The storage backend to use.</p><p>An instance of one of the supported storage mechanisms:</p><p><ul><li><a href="../Zebra_Cache/Storage/Storage_File.html">File</a></li><li><a href="../Zebra_Cache/Storage/Storage_Redis.html">Redis</a></li><li><a href="../Zebra_Cache/Storage/Storage_Memcached.html">Memcached</a></li></ul></td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -201,7 +214,7 @@ boolean
 <span class="src-var">$key</span>
 ) 
 </p>
-<p>Deletes the cache file associated with a key.</p>
+<p>Deletes the cache entry associated with the specified key.</p>
 <p><ol class="code"><li><div class="src-line"><span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methoddelete">delete</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 </ol>
 <h5>Arguments</h5>
@@ -209,14 +222,14 @@ boolean
 <tr>
 <td><em>string</em></td>
 <td><strong>$key</strong></td>
-<td>The key for which to delete the associated cache file.</td>
+<td>The key identifying the cache entry to delete.</td>
 </tr>
 </table>
 <h5>Tags</h5>
 <table>
 <tr>
 <td><strong>return:</strong>&nbsp;&nbsp;</td>
-<td>Returns <code>TRUE</code> if there was a file to be deleted or <code>FALSE</code> if there was nothing to                               delete.</td>
+<td>Returns <code>TRUE</code> if an entry was deleted, or <code>FALSE</code> if there was nothing to delete.</td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -225,33 +238,26 @@ boolean
 <h4 id="methodget" class="method"><span><em>method</em></span> get()</h4>
 <div class="doc_block">
 <p class="code">
-boolean
+mixed
 <span class="src-var">get</span>
 (
 <span class="src-key">string</span>
 <span class="src-var">$key</span>
-, 
-[ 
-<span class="src-key">boolean</span>
-<span class="src-var">$ignore_expiry</span>
-=
-<span class="src-key">false</span>
-]
 ) 
 </p>
-<p>Retrieves the cached value for the given key <strong>if</strong> the associated cache file exists <strong>and</strong> it is not expired.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
-<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
+<p>Retrieves an item from the cache.</p>
+<p>Retrieves the cached value for the specified key <strong>if</strong> the corresponding cache entry exists and it is not expired,   or <code>FALSE</code> otherwise.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;do&nbsp;whatever&nbsp;you&nbsp;need&nbsp;to&nbsp;retrieve&nbsp;data</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-str">'get&nbsp;this&nbsp;data'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-str">'my&nbsp;data'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;hour&nbsp;(3600&nbsp;seconds)</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$my_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-sym">}</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$my_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
 </ol>
 <h5>Arguments</h5>
 <table>
@@ -260,17 +266,12 @@ boolean
 <td><strong>$key</strong></td>
 <td>The key for which to return the cached value.</td>
 </tr>
-<tr>
-<td><em>boolean</em></td>
-<td><strong>$ignore_expiry</strong></td>
-<td>(Optional) If set to <code>TRUE</code> the cached value will be returned even if it is                                       expired.<br>Useful when you have a different process <a href="../Zebra_Cache/Zebra_Cache.html#methodset">setting</a> the                                       cache.</td>
-</tr>
 </table>
 <h5>Tags</h5>
 <table>
 <tr>
 <td><strong>return:</strong>&nbsp;&nbsp;</td>
-<td>Returns the cached content associated with the given key <strong>if</strong> the associated cache file                       exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</td>
+<td>Retrieves the cached value for the specified key <strong>if</strong> the corresponding cache entry exists                       and is not expired, or <code>FALSE</code> otherwise.</td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -279,15 +280,15 @@ boolean
 <h4 id="methodhas" class="method"><span><em>method</em></span> has()</h4>
 <div class="doc_block">
 <p class="code">
-boolean
+mixed
 <span class="src-var">has</span>
 (
 <span class="src-key">string</span>
 <span class="src-var">$key</span>
 ) 
 </p>
-<p>Checks whether a cached, non-expired value exists for the given key, and returns information about it.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$cached_info&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodhas">has</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
+<p>Checks if a cache entry exists.</p>
+<p>Checks whether a cached, non-expired value exists for the given key, and returns information about it.</p><ol class="code"><li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$cached_info&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodhas">has</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-str">'&lt;pre&gt;'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-var">$cached_info</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
@@ -306,12 +307,7 @@ boolean
 <table>
 <tr>
 <td><strong>return:</strong>&nbsp;&nbsp;</td>
-<td><p>Returns information about the cache associated with the given key <strong>if</strong> the associated                               cache file exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</p><p>If a cached values exists and it is not expired, the returned array will look like</p><ol class="code"><li><div class="src-line"><span class="src-key">Array&nbsp;</span><span class="src-sym">(</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'path'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;path&nbsp;to&nbsp;the&nbsp;cache&nbsp;file</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'timeout'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;the&nbsp;number&nbsp;of&nbsp;seconds&nbsp;the&nbsp;cache&nbsp;was&nbsp;supposed&nbsp;to&nbsp;be&nbsp;valid</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'ttl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;time&nbsp;to&nbsp;live,&nbsp;the&nbsp;number&nbsp;of&nbsp;seconds&nbsp;remaining&nbsp;until&nbsp;the&nbsp;cache&nbsp;expires</span></div></li>
-<li><div class="src-line"><span class="src-sym">)</span></div></li>
-</ol></td>
+<td><p>Returns information about the cache associated with the given key as an array, <strong>if</strong>                       the associated cache entry exists <strong>and</strong> it is not expired, or <code>FALSE</code> otherwise.</p><p class="highlight">For details on the exact return values, please refer to the documentation of the specific                           storage engine being used, as each may provide additional information unique to its                           implementation.</p></td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -330,50 +326,50 @@ boolean
 <span class="src-var">$data</span>
 , 
 [ 
-<span class="src-key">integer</span>
+<span class="src-key">int</span>
 <span class="src-var">$timeout</span>
 =
--1
+<span class="src-num">0</span>
 ]
 ) 
 </p>
-<p>Caches data identified by a unique key for a specific number of seconds.</p>
-<p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
-<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
+<p>Stores an item in the cache.</p>
+<p>Caches data identified by a unique key for a specific number of seconds. If the key already exists, the data   will be overwritten.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;do&nbsp;whatever&nbsp;you&nbsp;need&nbsp;to&nbsp;retrieve&nbsp;data</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$some_data&nbsp;</span>=&nbsp;<span class="src-str">'get&nbsp;this&nbsp;data'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-str">'my&nbsp;data'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;hour&nbsp;(3600&nbsp;seconds)</span></div></li>
-<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$some_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../Zebra_Cache/Zebra_Cache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$my_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">3600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line"><span class="src-sym">}</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
-<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$some_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;your&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$my_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
 </ol>
 <h5>Arguments</h5>
 <table>
 <tr>
 <td><em>string</em></td>
 <td><strong>$key</strong></td>
-<td><p>unique name identifying the data that is about to be stored.</p><p>The data will be saved in a file on disk at <a href="../Zebra_Cache/Zebra_Cache.html#var$path">path</a> and in the form of</p><p><code>md5($key) . '-' . $timeout . <a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a></code></p><p>Therefore, a cache file for the key <code>my-key</code>, having a validity of <code>3600</code> seconds                                   (one hour) and with <a href="../Zebra_Cache/Zebra_Cache.html#var$extension">extension</a> set to <code>.cache</code> would look like</p><p><code>515780610702189dabd912e9c9ef6f38-3600.cache</code></p></td>
+<td>Unique name identifying the data that is about to be stored.</td>
 </tr>
 <tr>
 <td><em>mixed</em></td>
 <td><strong>$data</strong></td>
-<td><p>The data to be stored.</p><p>The data will be stored in <a href="https://www.php.net/manual/en/function.serialize.php">serialized</a> form.</p><p class="highlight">Optionally, stored data can be <a href="../Zebra_Cache/Zebra_Cache.html#var$cache_encrypt">encrypted</a> and/or                                       <a href="../Zebra_Cache/Zebra_Cache.html#var$cache_gzcompress">compressed</a>.</p><p class="highlight">Anything that evaluates as <em>falsy</em>  will not be cached!<br>                                       These values are:<br>                                       <br>the keyword <code>false</code>                                       <br>the integer zero (<code>0</code>)                                       <br>the floating-point number zero (<code>0.0</code>)                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the <code>NULL</code> value                                       <br>an empty array (an array with zero elements)</p></td>
+<td><p>The data to be stored.</p><p class="highlight">Anything that evaluates as <em>falsy</em>  will not be cached!<br>                                       These values are:<br>                                       <br>the keyword <code>false</code>                                       <br>the integer zero (<code>0</code>)                                       <br>the floating-point number zero (<code>0.0</code>)                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the empty string (<code>''</code>) and the string <code>&quot;0&quot;</code>                                       <br>the <code>NULL</code> value                                       <br>an empty array (an array with zero elements)</p></td>
 </tr>
 <tr>
 <td><em>integer</em></td>
 <td><strong>$timeout</strong></td>
-<td><p>(Optional) The number of seconds after which the cached data will be considered                                   as expired.</p><p>If omitted, the value of <a href="../Zebra_Cache/Zebra_Cache.html#var$default_timeout">default_timeout</a> will be used.</p></td>
+<td><p><span class="optional">Optional</span> The number of seconds after which the cached data will be considered                                   expired.</p><p>Valid values are integers greater than <code>0</code>. The value <code>0</code> is also valid and it                                   indicates that the value of <a href="../Zebra_Cache/Zebra_Cache.html#var$default_timeout">$default_timeout</a>                                   will be applied.</p><p class="highlight">Providing an invalid value will result in the <a href="../Zebra_Cache/Zebra_Cache.html#var$default_timeout">$default_timeout</a>                                       being applied instead.</p><p>Default is <code>0</code> (<a href="../Zebra_Cache/Zebra_Cache.html#var$default_timeout">$default_timeout</a>)</p></td>
 </tr>
 </table>
 <h5>Tags</h5>
 <table>
 <tr>
 <td><strong>return:</strong>&nbsp;&nbsp;</td>
-<td>Returns <code>TRUE</code></td>
+<td>Returns <code>TRUE</code> on success or <code>FALSE</code> if data could not be cached.</td>
 </tr>
 </table>
 <a href="#top" class="top">top</a>
@@ -384,7 +380,7 @@ boolean
 </tr>
 </table>
 <div id="doc_footer">
-Documentation generated on <span>Mon, 30 December 2024</span>
+Documentation generated on <span>Sun, 12 January 2025</span>
 </div>
 </div>
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-0301ZD47Q7"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-0301ZD47Q7');</script></body>

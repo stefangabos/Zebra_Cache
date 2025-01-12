@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Zebra Cache - a file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load - Docs For Class Storage_Memcache</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<link rel="shortcut icon" href="/Zebra_Cache/favicon.ico">
+<link rel="stylesheet" type="text/css" href="../../media/reset.css">
+<link rel="stylesheet" type="text/css" href="../../media/style.css">
+</head>
+<body>
+<div id="doc_header">
+<a href="https://github.com/stefangabos/Zebra_Cache" class="projects-homepage">
+<img src="../../media/zebra-logo.png" width="35" height="32" alt="Zebra_Cache" >
+<a href="https://github.com/stefangabos/Zebra_Cache" class="projects-homepage">Zebra Cache</a>
+</a>
+<ul class="notype float">
+<!--
+<li><a href="../../classtrees_Zebra_Cache.html">class tree: Zebra_Cache</a></li>
+-->
+<li><a href="../../elementindex_Zebra_Cache.html">Element index</a></li>
+<!--
+<li class="last"><a href="../../elementindex.html">all elements</a></li>
+-->
+</ul>
+<div class="clear"></div>
+</div>
+<div id="phpdoc">
+<table class="stretch">
+<tr>
+<td class="sidebar">
+<div id="doc_sidebar">
+<p><strong>Project's homepage</strong></p>
+<ul>
+<li>
+<a href="https://github.com/stefangabos/Zebra_Cache" class="projects-homepage">Zebra Cache</a>
+</li>
+</ul>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="../../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></li>
+</ul>
+<p class="subpackage">&#8627; <strong>Storage</strong></p>
+<ul>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/Storage_File.html">Storage_File</a></li>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/Storage_Memcache.html">Storage_Memcache</a></li>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a></li>
+</ul>
+<p><strong>Files:</strong></p>
+<ul>
+<li><a href="../../Zebra_Cache/_Storage---Storage_Interface.php.html">Storage_Interface.php</a></li>
+<li><a href="../../Zebra_Cache/_Zebra_Cache.php.html">Zebra_Cache.php</a></li>
+</ul>
+<p class="subpackage">&#8627; <strong>Storage</strong></p>
+<ul>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/_Storage---Storage_File.php.html">Storage_File.php</a></li>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/_Storage---Storage_Memcache.php.html">Storage_Memcache.php</a></li>
+<li class="subpackage"><a href="../../Zebra_Cache/Storage/_Storage---Storage_Redis.php.html">Storage_Redis.php</a></li>
+</ul>
+<p><strong>Interfaces:</strong></p>
+<ul>
+<li><a href="../../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></li>
+</ul>
+<p class="hello-separator"></p>
+<p class="hello">
+<img src="https://avatars1.githubusercontent.com/u/741165?s=460&u=95c38afa1015f9ed705f3ad9848b3c2687b547db&v=4" width="131" alt="Stefan Gabos">
+Hi there!
+<br><br>
+That's me, Stefan Gabos, the author of this library.
+<br><br>
+If you like this project, please <a href="https://github.com/stefangabos/Zebra_Cache" class="projects-homepage">star it on GitHub</a> — <strong>thank you</strong>!
+<br><br>
+I have a few other projects that you might be interested in — <a href="https://github.com/stefangabos">check them out</a> if you have the time.
+</p>
+</div>
+</td>
+<td style="background: #FFF; width: 100%">
+<div id="doc_content">
+<h2>Class: <strong>Storage_Memcache</strong></h2>
+<h6><strong>source file:</strong> /Storage/Storage_Memcache.php</h6>
+<pre></pre>
+<p>A Memcache-based implementation of the <a href="../../Zebra_Cache/Storage_Interface.html">Storage_Interface</a>.<p>This class provides a caching mechanism using a <a href="https://memcached.org/about">Memcached</a> server as the backend.</p><p>It leverages Memcached's fast in-memory storage for high-performance caching and supports features like key expiration   and atomic operations.</p><p class="highlight">When using <strong>Memcached</strong> as a storage engine, PHP must be compiled with either the <a href="https://pecl.php.net/package/memcache">memcache
+extension</a> (<a href="https://www.php.net/manual/en/book.memcache.php">PHP manual</a>) or the <a href="https://pecl.php.net/package/memcached">memcached extension</a>       (<a href="https://www.php.net/manual/en/book.memcached.php">PHP manual</a>).</p>
+<h4>Author(s):</h4>
+<ul>
+<li>Stefan Gabos <br><a href="mailto:contact@stefangabos.ro">contact@stefangabos.ro</a></li>
+</ul>
+<h4>License:</h4>
+<ul>
+<li><a href="https://www.gnu.org/licenses/lgpl-3.0.txt">GNU LESSER GENERAL PUBLIC LICENSE</a></li>
+</ul>
+<h4>Copyright:</h4>
+<ul>
+<li>© 2022 - 2025 Stefan Gabos</li>
+</ul>
+<div id="top" class="doc_toc">
+<h4>Implements interfaces:</h4>
+<ul><li><a href="../../Zebra_Cache/Storage_Interface.html">Storage_Interface</a></li></ul>
+</div>
+<div id="top" class="doc_toc">
+<div class="left">
+<h3>Methods</h3>
+<ul>
+</ul>
+<ul>
+<li><a href="#method__construct">__construct</a></li>
+<li><a href="#methoddelete">delete</a></li>
+<li><a href="#methodget">get</a></li>
+<li><a href="#methodhas">has</a></li>
+<li><a href="#methodset">set</a></li>
+</ul>
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+</div>
+<h3 id="class_methods">Class methods</h3>
+<h4 id="method__construct" class="method"><span><em>constructor</em></span> __construct()</h4>
+<div class="doc_block">
+<p class="code">
+void
+<span class="src-var">__construct</span>
+(
+<span class="src-key">mixed</span>
+<span class="src-var">$memcache</span>
+) 
+</p>
+<p>Constructor of the class.</p>
+<p>Initializes the Memcache client and connects to the Memcached server.</p><ol class="code"><li><div class="src-line"><span class="src-comm">//&nbsp;connect&nbsp;to&nbsp;a&nbsp;Memcached&nbsp;server&nbsp;using&nbsp;PHP's&nbsp;&quot;Memcache&quot;&nbsp;extension</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Memcache</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache</span><span class="src-sym">-&gt;</span><span class="src-id">addServer</span><span class="src-sym">(</span><span class="src-str">'localhost'</span><span class="src-sym">,&nbsp;</span><span class="src-num">11211</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;OR</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;connect&nbsp;to&nbsp;a&nbsp;Memcached&nbsp;server&nbsp;using&nbsp;PHP's&nbsp;&quot;Memcached&quot;&nbsp;extension</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Memcached</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-var">$memcache</span><span class="src-sym">-&gt;</span><span class="src-id">addServer</span><span class="src-sym">(</span><span class="src-str">'localhost'</span><span class="src-sym">,&nbsp;</span><span class="src-num">11211</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;pass&nbsp;the&nbsp;$memcache&nbsp;instance&nbsp;as&nbsp;argument&nbsp;when&nbsp;initializing&nbsp;the&nbsp;Memcached-based&nbsp;storage</span></div></li>
+<li><div class="src-line"><span class="src-var">$storage&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">stefangabos</span>\<span class="src-id"><a href="../../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id">Storage</span>\<span class="src-id"><a href="../../Zebra_Cache/Storage/Storage_Memcache.html">Storage_Memcache</a></span><span class="src-sym">(</span><span class="src-var">$memcache</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;instantiate&nbsp;the&nbsp;caching&nbsp;library&nbsp;using&nbsp;Memcached&nbsp;for&nbsp;storage</span></div></li>
+<li><div class="src-line"><span class="src-var">$cache&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">stefangabos</span>\<span class="src-id"><a href="../../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span>\<span class="src-id"><a href="../../Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></span><span class="src-sym">(</span><span class="src-var">$storage</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;if&nbsp;a&nbsp;cached,&nbsp;non-expired&nbsp;value&nbsp;for&nbsp;the&nbsp;sought&nbsp;key&nbsp;does&nbsp;not&nbsp;exist</span></div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">(</span><span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../../Zebra_Cache/Storage/Storage_Memcache.html#methodget">get</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">)))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;do&nbsp;whatever&nbsp;you&nbsp;need&nbsp;to&nbsp;retrieve&nbsp;data</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$my_data&nbsp;</span>=&nbsp;<span class="src-str">'my&nbsp;data'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;cache&nbsp;the&nbsp;values&nbsp;for&nbsp;one&nbsp;10&nbsp;minutes&nbsp;(10&nbsp;x&nbsp;60&nbsp;seconds)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cache</span><span class="src-sym">-&gt;</span><a href="../../Zebra_Cache/Storage/Storage_Memcache.html#methodset">set</a><span class="src-sym">(</span><span class="src-str">'my-key'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$my_data</span><span class="src-sym">,&nbsp;</span><span class="src-num">10&nbsp;</span>*&nbsp;<span class="src-num">600</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-comm">//&nbsp;at&nbsp;this&nbsp;point&nbsp;$my_data&nbsp;will&nbsp;always&nbsp;contain&nbsp;the&nbsp;data,&nbsp;either&nbsp;from&nbsp;cache,&nbsp;or&nbsp;fresh</span></div></li>
+</ol>
+<h5>Arguments</h5>
+<table>
+<tr>
+<td><em>mixed</em></td>
+<td><strong>$memcache</strong></td>
+<td>An instance of either <a href="https://www.php.net/manual/en/book.memcache.php">Memcache</a> or                               <a href="https://www.php.net/manual/en/book.memcached.php">Memcached</a>.</td>
+</tr>
+</table>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
+<h4 id="methoddelete" class="method"><span><em>method</em></span> delete()</h4>
+<div class="doc_block">
+<p class="code">
+void
+<span class="src-var">delete</span>
+(
+<span class="src-key">string</span>
+<span class="src-var">$key</span>
+) 
+</p>
+<p>See <a href="../../Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a> for actual documentation.</p>
+<div class="implementation">
+<div class="notes">Implementation of:</div>
+<dl>
+<dt><a href="../../Zebra_Cache/Storage_Interface.html#methoddelete">Storage_Interface::delete()</a></dt>
+<dd>Deletes a cache entry.</dd>
+</dl>
+</div>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
+<h4 id="methodget" class="method"><span><em>method</em></span> get()</h4>
+<div class="doc_block">
+<p class="code">
+void
+<span class="src-var">get</span>
+(
+<span class="src-key">string</span>
+<span class="src-var">$key</span>
+) 
+</p>
+<p>See <a href="../../Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a> for actual documentation.</p>
+<div class="implementation">
+<div class="notes">Implementation of:</div>
+<dl>
+<dt><a href="../../Zebra_Cache/Storage_Interface.html#methodget">Storage_Interface::get()</a></dt>
+<dd>Retrieves an item from the cache.</dd>
+</dl>
+</div>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
+<h4 id="methodhas" class="method"><span><em>method</em></span> has()</h4>
+<div class="doc_block">
+<p class="code">
+mixed
+<span class="src-var">has</span>
+(
+<span class="src-key">string</span>
+<span class="src-var">$key</span>
+) 
+</p>
+<p>See <a href="../../Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a> for full documentation.</p>
+<h5>Tags</h5>
+<table>
+<tr>
+<td><strong>return:</strong>&nbsp;&nbsp;</td>
+<td><p>If a cached values exists and it is not expired, the returned array will look like</p><ol class="code"><li><div class="src-line"><span class="src-sym">[</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'ttl'&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'N/A'</span><span class="src-sym">,&nbsp;&nbsp;</span><span class="src-comm">//&nbsp;&nbsp;memcache&nbsp;does&nbsp;not&nbsp;provide&nbsp;the&nbsp;remaining&nbsp;TTL</span></div></li>
+<li><div class="src-line"><span class="src-sym">]</span></div></li>
+</ol></td>
+</tr>
+</table>
+<div class="implementation">
+<div class="notes">Implementation of:</div>
+<dl>
+<dt><a href="../../Zebra_Cache/Storage_Interface.html#methodhas">Storage_Interface::has()</a></dt>
+<dd>Checks if a cache entry exists.</dd>
+</dl>
+</div>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
+<h4 id="methodset" class="method"><span><em>method</em></span> set()</h4>
+<div class="doc_block">
+<p class="code">
+void
+<span class="src-var">set</span>
+(
+<span class="src-key">string</span>
+<span class="src-var">$key</span>
+, 
+<span class="src-key"></span>
+<span class="src-var">$data</span>
+, 
+[ 
+<span class="src-key">int</span>
+<span class="src-var">$timeout</span>
+=
+<span class="src-num">0</span>
+]
+) 
+</p>
+<p>See <a href="../../Zebra_Cache/Zebra_Cache.html#methodset">Zebra_Cache::set()</a> for actual documentation.</p>
+<div class="implementation">
+<div class="notes">Implementation of:</div>
+<dl>
+<dt><a href="../../Zebra_Cache/Storage_Interface.html#methodset">Storage_Interface::set()</a></dt>
+<dd>Stores an item in the cache.</dd>
+</dl>
+</div>
+<a href="#top" class="top">top</a>
+<div class="clear"></div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+<div id="doc_footer">
+Documentation generated on <span>Sat, 11 January 2025</span>
+</div>
+</div>
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-0301ZD47Q7"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-0301ZD47Q7');</script></body>
+</html>

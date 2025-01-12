@@ -40,6 +40,16 @@
 <ul>
 <li><a href="Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a></li>
 </ul>
+<p class="subpackage">&#8627; <strong>Storage</strong></p>
+<ul>
+<li class="subpackage"><a href="Zebra_Cache/Storage/Storage_File.html">Storage_File</a></li>
+<li class="subpackage"><a href="Zebra_Cache/Storage/Storage_Memcached.html">Storage_Memcached</a></li>
+<li class="subpackage"><a href="Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a></li>
+</ul>
+<p><strong>Interfaces:</strong></p>
+<ul>
+<li><a href="Zebra_Cache/Storage_Interface.html">Storage_Interface</a></li>
+</ul>
 <p class="hello-separator"></p>
 <p class="hello">
 <img src="https://avatars1.githubusercontent.com/u/741165?s=460&u=95c38afa1015f9ed705f3ad9848b3c2687b547db&v=4" width="131" alt="Stefan Gabos">
@@ -53,16 +63,14 @@ I have a few other projects that you might be interested in — <a href="https:/
 </p>
 </div>
 </td>
-<td style="background: #FFF">
+<td style="background: #FFF; width: 100%">
 <div id="doc_content">
 <h2 id="top">Element index for <strong>Zebra_Cache</strong></h2>
 <div id="doc_index">
 [ <a href="elementindex_Zebra_Cache.html#c">c</a> ]
 [ <a href="elementindex_Zebra_Cache.html#d">d</a> ]
-[ <a href="elementindex_Zebra_Cache.html#e">e</a> ]
 [ <a href="elementindex_Zebra_Cache.html#g">g</a> ]
 [ <a href="elementindex_Zebra_Cache.html#h">h</a> ]
-[ <a href="elementindex_Zebra_Cache.html#p">p</a> ]
 [ <a href="elementindex_Zebra_Cache.html#s">s</a> ]
 [ <a href="elementindex_Zebra_Cache.html#z">z</a> ]
 [ <a href="elementindex_Zebra_Cache.html#_">_</a> ]
@@ -70,7 +78,13 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h3 id="_">_</h3>
 <dl>
 <dt>__construct</dt>
-<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#method__construct">Zebra_Cache::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor of the class.</dd>
+<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#method__construct">Zebra_Cache::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Initializes the cache system with the provided storage backend.</dd>
+<dt>__construct</dt>
+<dd>in file Storage_File.php, method <a href="Zebra_Cache/Storage/Storage_File.html#method__construct">Storage_File::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor of the class.</dd>
+<dt>__construct</dt>
+<dd>in file Storage_Memcached.php, method <a href="Zebra_Cache/Storage/Storage_Memcached.html#method__construct">Storage_Memcached::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor of the class.</dd>
+<dt>__construct</dt>
+<dd>in file Storage_Redis.php, method <a href="Zebra_Cache/Storage/Storage_Redis.html#method__construct">Storage_Redis::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor of the class.</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -78,10 +92,8 @@ I have a few other projects that you might be interested in — <a href="https:/
 <div class="doc_index">
 <h3 id="c">c</h3>
 <dl>
-<dt>$cache_encrypt</dt>
-<dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$cache_encrypt">Zebra_Cache::$cache_encrypt</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Whether content in cache files should be <a href="https://www.php.net/manual/en/function.openssl-encrypt.php">openssl_encrypt</a>-ed   using the <code>aes-256-cbc</code>cipher method.</dd>
 <dt>$cache_gzcompress</dt>
-<dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$cache_gzcompress">Zebra_Cache::$cache_gzcompress</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Whether cache files should be <a href="https://www.php.net/manual/en/function.gzcompress.php">gzcompress</a>-ed.</dd>
+<dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$cache_gzcompress">Zebra_Cache::$cache_gzcompress</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Whether data should be <a href="https://www.php.net/manual/en/function.gzcompress.php">gzcompress</a>-ed before   being <a href="Zebra_Cache/Zebra_Cache.html#methodset">set()</a> (using the function's default settings).</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -92,16 +104,15 @@ I have a few other projects that you might be interested in — <a href="https:/
 <dt>$default_timeout</dt>
 <dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$default_timeout">Zebra_Cache::$default_timeout</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The default number of seconds after which cached data will be considered as expired.</dd>
 <dt>delete</dt>
-<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Deletes the cache file associated with a key.</dd>
-</dl>
-</div>
-<a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
-<div class="clear"></div>
-<div class="doc_index">
-<h3 id="e">e</h3>
-<dl>
-<dt>$extension</dt>
-<dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$extension">Zebra_Cache::$extension</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The extension to suffix cache files with.</dd>
+<dd>in file Storage_Interface.php, method <a href="Zebra_Cache/Storage_Interface.html#methoddelete">Storage_Interface::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Deletes a cache entry.</dd>
+<dt>delete</dt>
+<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Deletes the cache entry associated with the specified key.</dd>
+<dt>delete</dt>
+<dd>in file Storage_File.php, method <a href="Zebra_Cache/Storage/Storage_File.html#methoddelete">Storage_File::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a> for documentation.</dd>
+<dt>delete</dt>
+<dd>in file Storage_Memcached.php, method <a href="Zebra_Cache/Storage/Storage_Memcached.html#methoddelete">Storage_Memcached::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a> for documentation.</dd>
+<dt>delete</dt>
+<dd>in file Storage_Redis.php, method <a href="Zebra_Cache/Storage/Storage_Redis.html#methoddelete">Storage_Redis::delete()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methoddelete">Zebra_Cache::delete()</a> for documentation.</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -110,7 +121,15 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h3 id="g">g</h3>
 <dl>
 <dt>get</dt>
-<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Retrieves the cached value for the given key <strong>if</strong> the associated cache file exists <strong>and</strong> it is not expired.</dd>
+<dd>in file Storage_Interface.php, method <a href="Zebra_Cache/Storage_Interface.html#methodget">Storage_Interface::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Retrieves an item from the cache.</dd>
+<dt>get</dt>
+<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Retrieves an item from the cache.</dd>
+<dt>get</dt>
+<dd>in file Storage_File.php, method <a href="Zebra_Cache/Storage/Storage_File.html#methodget">Storage_File::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a> for documentation.</dd>
+<dt>get</dt>
+<dd>in file Storage_Memcached.php, method <a href="Zebra_Cache/Storage/Storage_Memcached.html#methodget">Storage_Memcached::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a> for documentation.</dd>
+<dt>get</dt>
+<dd>in file Storage_Redis.php, method <a href="Zebra_Cache/Storage/Storage_Redis.html#methodget">Storage_Redis::get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodget">Zebra_Cache::get()</a> for documentation.</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -119,16 +138,15 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h3 id="h">h</h3>
 <dl>
 <dt>has</dt>
-<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Checks whether a cached, non-expired value exists for the given key, and returns information about it.</dd>
-</dl>
-</div>
-<a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
-<div class="clear"></div>
-<div class="doc_index">
-<h3 id="p">p</h3>
-<dl>
-<dt>$path</dt>
-<dd>in file Zebra_Cache.php, variable <a href="Zebra_Cache/Zebra_Cache.html#var$path">Zebra_Cache::$path</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The path where the cache files to be stored at.</dd>
+<dd>in file Storage_Interface.php, method <a href="Zebra_Cache/Storage_Interface.html#methodhas">Storage_Interface::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Checks if a cache entry exists.</dd>
+<dt>has</dt>
+<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Checks if a cache entry exists.</dd>
+<dt>has</dt>
+<dd>in file Storage_File.php, method <a href="Zebra_Cache/Storage/Storage_File.html#methodhas">Storage_File::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a> for full documentation.</dd>
+<dt>has</dt>
+<dd>in file Storage_Memcached.php, method <a href="Zebra_Cache/Storage/Storage_Memcached.html#methodhas">Storage_Memcached::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a> for full documentation.</dd>
+<dt>has</dt>
+<dd>in file Storage_Redis.php, method <a href="Zebra_Cache/Storage/Storage_Redis.html#methodhas">Storage_Redis::has()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodhas">Zebra_Cache::has()</a> for documentation.</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -137,7 +155,31 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h3 id="s">s</h3>
 <dl>
 <dt>set</dt>
-<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodset">Zebra_Cache::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Caches data identified by a unique key for a specific number of seconds.</dd>
+<dd>in file Storage_Interface.php, method <a href="Zebra_Cache/Storage_Interface.html#methodset">Storage_Interface::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Stores an item in the cache.</dd>
+<dt>set</dt>
+<dd>in file Zebra_Cache.php, method <a href="Zebra_Cache/Zebra_Cache.html#methodset">Zebra_Cache::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Stores an item in the cache.</dd>
+<dt>Storage_Interface.php</dt>
+<dd>procedural page <a href="Zebra_Cache/_Storage---Storage_Interface.php.html">Storage_Interface.php</a></dd>
+<dt>Storage_Interface</dt>
+<dd>in file Storage_Interface.php, class <a href="Zebra_Cache/Storage_Interface.html">Storage_Interface</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Interface for cache storage mechanisms used in the Zebra Cache library.</dd>
+<dt>set</dt>
+<dd>in file Storage_File.php, method <a href="Zebra_Cache/Storage/Storage_File.html#methodset">Storage_File::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The data will be stored in a file on disk at the path specified in the <a href="Zebra_Cache/Storage/Storage_File.html#method__construct">constructor</a>,   having the name:</dd>
+<dt>set</dt>
+<dd>in file Storage_Memcached.php, method <a href="Zebra_Cache/Storage/Storage_Memcached.html#methodset">Storage_Memcached::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodset">Zebra_Cache::set()</a> for documentation.</dd>
+<dt>set</dt>
+<dd>in file Storage_Redis.php, method <a href="Zebra_Cache/Storage/Storage_Redis.html#methodset">Storage_Redis::set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;See <a href="Zebra_Cache/Zebra_Cache.html#methodset">Zebra_Cache::set()</a> for documentation.</dd>
+<dt>Storage_File.php</dt>
+<dd>procedural page <a href="Zebra_Cache/Storage/_Storage---Storage_File.php.html">Storage_File.php</a></dd>
+<dt>Storage_Memcached.php</dt>
+<dd>procedural page <a href="Zebra_Cache/Storage/_Storage---Storage_Memcached.php.html">Storage_Memcached.php</a></dd>
+<dt>Storage_Redis.php</dt>
+<dd>procedural page <a href="Zebra_Cache/Storage/_Storage---Storage_Redis.php.html">Storage_Redis.php</a></dd>
+<dt>Storage_File</dt>
+<dd>in file Storage_File.php, class <a href="Zebra_Cache/Storage/Storage_File.html">Storage_File</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A file-based implementation of the <a href="Zebra_Cache/Storage_Interface.html">Storage_Interface</a>.</dd>
+<dt>Storage_Memcached</dt>
+<dd>in file Storage_Memcached.php, class <a href="Zebra_Cache/Storage/Storage_Memcached.html">Storage_Memcached</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A Memcache-based implementation of the <a href="Zebra_Cache/Storage_Interface.html">Storage_Interface</a>.</dd>
+<dt>Storage_Redis</dt>
+<dd>in file Storage_Redis.php, class <a href="Zebra_Cache/Storage/Storage_Redis.html">Storage_Redis</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A Redis-based implementation of the <a href="Zebra_Cache/Storage_Interface.html">Storage_Interface</a>.</dd>
 </dl>
 </div>
 <a href="elementindex_Zebra_Cache.html#top" class="top">top</a>
@@ -146,7 +188,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 <h3 id="z">z</h3>
 <dl>
 <dt>Zebra_Cache</dt>
-<dd>in file Zebra_Cache.php, class <a href="Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load</dd>
+<dd>in file Zebra_Cache.php, class <a href="Zebra_Cache/Zebra_Cache.html">Zebra_Cache</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A lightweight PHP caching library supporting multiple storage mechanisms.</dd>
 <dt>Zebra_Cache.php</dt>
 <dd>procedural page <a href="Zebra_Cache/_Zebra_Cache.php.html">Zebra_Cache.php</a></dd>
 </dl>
@@ -159,7 +201,7 @@ I have a few other projects that you might be interested in — <a href="https:/
 </tr>
 </table>
 <div id="doc_footer">
-Documentation generated on <span>Mon, 30 December 2024</span>
+Documentation generated on <span>Sun, 12 January 2025</span>
 </div>
 </div>
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-0301ZD47Q7"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-0301ZD47Q7');</script></body>
