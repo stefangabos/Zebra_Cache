@@ -1,27 +1,50 @@
 <?php
 
-namespace stefangabos\Zebra_Cache;
-
 /**
- *  A file-based lightweight PHP caching library that uses file locking to ensure proper functionality under heavy load
+ *  A lightweight PHP caching library supporting multiple storage mechanisms.
+ *
+ *  This library provides a unified interface for caching data, allowing the use of various storage backends like
+ *  file-based caching, Redis, Memcached, or custom implementations.
+ *
+ *  It supports common caching operations such as storing, retrieving and deleting data, as well as checking for the
+ *  existence of a cache entry.
+ *
+ *  **Features**:
+ *
+ *  - pluggable architecture for using different storage mechanisms
+ *  - flexible key-value caching
+ *  - automatic expiration of cache items based on a specified time-to-live (TTL) value
+ *  - extensible design allowing developers to integrate new storage backends by implementing the {@link Storage_Interface}
+ *  - easy-to-use API with consistent behavior across different backends
+ *  - support for multiple instances, allowing you to use different cache configurations for different parts of your application
  *
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    1.4.0 (last revision: December 30, 2024)
- *  @copyright  © 2022 - 2024 Stefan Gabos
+ *  @version    2.0.0 (last revision: January 12, 2025)
+ *  @copyright  © 2022 - 2025 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
  */
+
+namespace stefangabos\Zebra_Cache;
+
+use stefangabos\Zebra_Cache\Storage\Storage_Interface;
+
 class Zebra_Cache {
 
     /**
-     *  Whether cache files should be {@link https://www.php.net/manual/en/function.gzcompress.php gzcompress}-ed.
+     *  Whether data should be {@link https://www.php.net/manual/en/function.gzcompress.php gzcompress}-ed before
+     *  being {@link set()} (using the function's default settings).
      *
      *  <code>
-     *  // enable gz-compressing, saving disk space
+     *  // enable gz-compressing
      *  $cache->cache_gzcompress = true;
      *  </code>
+     *
+     *  >   Note that the library will not check if the stored data is compressed or not - if this property is set
+     *      to `TRUE`, it will always try to uncompress data when using {@link get()}! Therefore, be careful not to mix
+     *      compressed and uncompressed data.
      *
      *  Default is `FALSE`
      *
@@ -30,192 +53,180 @@ class Zebra_Cache {
     public $cache_gzcompress = false;
 
     /**
-     *  Whether content in cache files should be {@link https://www.php.net/manual/en/function.openssl-encrypt.php openssl_encrypt}-ed
-     *  using the `aes-256-cbc`cipher method.
-     *
-     *  If you want this enabled you must set its value to a unique cipher to be used for encrypting and decrypting the data.
-     *
-     *  <code>
-     *  // use something random, hard to guess
-     *  $cache->cache_encrypt = 'Z&y&m^VBPJmCVtya';
-     *  </code>
-     *
-     *  Default is `FALSE`
-     *
-     *  @var mixed
-     */
-    public $cache_encrypt = false;
-
-    /**
      *  The default number of seconds after which cached data will be considered as expired.
      *
      *  This is used by the {@link set()} method when the `timeout` argument is omitted.
      *
-     *  Default is `3600` (one hour)
+     *  Default is `300` (5 minutes)
      *
      *  @var integer
      */
-    public $default_timeout = 3600;
+    public $default_timeout = 300;
 
     /**
-     *  The extension to suffix cache files with.
+     * The storage backend used for caching.
+     *
+     * This is an implementation of the `Storage_Interface`, which defines the
+     * contract for all storage mechanisms.
+     *
+     * @var Storage_Interface
+     */
+    private Storage_Interface $storage;
+
+    /**
+     *  Initializes the cache system with the provided storage backend.
+     *
+     *  Initializing **file-based storage**:
      *
      *  <code>
-     *  $cache->extension = '.cache';
+     *  // make sure you have this at the top of your script
+     *  use stefangabos\Zebra_Cache\Storage\Storage_File
+     *
+     *  // initialize file-based storage
+     *  $storage = new Storage_File('/path/to/cache/folder');
+     *
+     *  // or, if you don't want the "use" at the top of the script, initialize the file-based storage like this
+     *  // $storage = new stefangabos\Zebra_Cache\Storage\Storage_File('/path/to/cache/folder');
      *  </code>
      *
-     *  >   The `. (dot)` is not implied - you need to also add the dot if you need it
-     *
-     *  Default is `''` (an empty string, nothing)
-     *
-     *  @var string
-     */
-    public $extension = '';
-
-    /**
-     *  The path where the cache files to be stored at.
-     *
-     *  @var string
-     */
-    public $path = '';
-
-    /**
-     *  Constructor of the class.
+     *  Initializing **Redis-based storage**:
      *
      *  <code>
-     *  $cache = new stefangabos\Zebra_Cache\Zebra_Cache('path/to/store/cache-files/');
+     *  // make sure you have this at the top of your script
+     *  use stefangabos\Zebra_Cache\Storage\Storage_Redis
+     *
+     *  // connect to a Redis server
+     *  $redis = new Redis();
+     *  $redis->connect('127.0.0.1', 6379);
+     *
+     *  // pass the $redis instance as argument to initialize the Redis-based storage
+     *  $storage = new Storage_Redis($redis);
+     *
+     *  // or, if you don't want the "use" at the top of the script, initialize the Redis-based storage like this
+     *  // $storage = new stefangabos\Zebra_Cache\Storage\Storage_Redis($redis);
+     *
+     *  // finally, instantiate the caching library using the storage engine configured above
+     *  $cache = new stefangabos\Zebra_Cache\Zebra_Cache($storage);
+     *  </code>
+     *
+     *  Initializing **Memcached-based storage**:
+     *
+     *  There are two PHP extensions for working with Memcached: the `memcache` extension, which is older and less commonly
+     *  used, and `memcached` which is generally preferred for better features and compatibility.
+     *
+     *  This library supports both.
+     *
+     *  <code>
+     *  // make sure you have this at the top of your script
+     *  use stefangabos\Zebra_Cache\Storage\Storage_Memcached
+     *
+     *  // connect to a Memcached server (using the `memcached` extension)
+     *  $memcache = new Memcached();
+     *  $memcache->addServer('localhost', 11211);
+     *
+     *  // OR using the `memcache` extension
+     *  $memcache = new Memcache();
+     *  $memcache->addServer('localhost', 11211);
+     *
+     *  // pass the $memcache instance as argument to initialize the Memcached-based storage
+     *  $storage = new Storage_Memcached($memcache);
+     *
+     *  // or, if you don't want the "use" at the top of the script,
+     *  // initialize the Memcached-based storage like this
+     *  // $storage = new stefangabos\Zebra_Cache\Storage\Storage_Memcached($memcache);
+     *  </code>
+     *
+     *  Once the storage engine is initialized:
+     *
+     *  <code>
+     *  // instantiate the caching library using the chosen storage engine
+     *  $cache = new stefangabos\Zebra_Cache\Zebra_Cache($storage);
      *
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->get('my-key'))) {
+     *  if (!($my_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
-     *      $some_data = 'get this data';
+     *      $my_data = 'my data';
      *
-     *      // cache the values for one hour (3600 seconds)
-     *      $cache->set('my-key', $some_data, 3600);
+     *      // cache the values for one 10 minutes (10 x 60 seconds)
+     *      $cache->set('my-key', $my_data, 10 * 600);
      *
      *  }
      *
-     *  // at this point $some_data will always contain your data, either from cache, or fresh
+     *  // at this point $my_data will always contain data, either from cache, or fresh
      *  </code>
      *
-     *  @param  string      $path       The path where the cache files to be stored at.
+     *  @param  Storage_Interface   $storage   The storage backend to use.
      *
-     *                                  >   This can be changed later by updating the {@link path} property.
+     *                                          An instance of one of the supported storage mechanisms:
      *
-     *  @param  string      $extension  (Optional) The extension to suffix cache files with.
-     *
-     *                                  >   This can be changed later by updating the {@link extension} property.
-     *
-     *                                  Default is `''` (an empty string)
-     *
-     *  @return void
+     *                                          -   {@link Storage_File File}
+     *                                          -   {@link Storage_Redis Redis}
+     *                                          -   {@link Storage_Memcached Memcached}
      */
-    public function __construct($path, $extension = '') {
-
-        $this->path = rtrim($path, '/') . '/';
-        $this->extension = $extension;
-
+    public function __construct(Storage_Interface $storage) {
+        $this->storage = $storage;
     }
 
     /**
-     *  Deletes the cache file associated with a key.
+     *  Deletes the cache entry associated with the specified key.
      *
      *  <code>
      *  $cache->delete('my-key');
      *  </code>
      *
-     *  @param  string      $key    The key for which to delete the associated cache file.
+     *  @param  string      $key    The key identifying the cache entry to delete.
      *
-     *  @return boolean             Returns `TRUE` if there was a file to be deleted or `FALSE` if there was nothing to
-     *                              delete.
+     *  @return boolean     Returns `TRUE` if an entry was deleted, or `FALSE` if there was nothing to delete.
      */
-    public function delete($key) {
-
-        // make sure path exists and is writable
-        $this->_check_path();
-
-        // get the matching file
-        // (there should never be more than just one file, but just in case)
-        $files = glob($this->path . md5($key) . '-*' . $this->extension);
-
-        // delete the file(s)
-        foreach ($files as $file) {
-            @unlink($file);
-        }
-
-        return !empty($files);
-
+    public function delete(string $key): bool {
+        return $this->storage->delete($key);
     }
 
     /**
-     *  Retrieves the cached value for the given key **if** the associated cache file exists **and** it is not expired.
+     *  Retrieves an item from the cache.
+     *
+     *  Retrieves the cached value for the specified key **if** the corresponding cache entry exists and it is not expired,
+     *  or `FALSE` otherwise.
      *
      *  <code>
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->get('my-key'))) {
+     *  if (!($my_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
-     *      $some_data = 'get this data';
+     *      $my_data = 'my data';
      *
      *      // cache the values for one hour (3600 seconds)
-     *      $cache->set('my-key', $some_data, 3600);
+     *      $cache->set('my-key', $my_data, 3600);
      *
      *  }
      *
-     *  // at this point $some_data will always contain your data, either from cache, or fresh
+     *  // at this point $my_data will always contain data, either from cache, or fresh
      *  </code>
      *
-     *  @param  string      $key            The key for which to return the cached value.
+     *  @param  string      $key    The key for which to return the cached value.
      *
-     *  @param  boolean     $ignore_expiry  (Optional) If set to `TRUE` the cached value will be returned even if it is
-     *                                      expired.<br>Useful when you have a different process {@link set setting} the
-     *                                      cache.
-     *
-     *  @return boolean     Returns the cached content associated with the given key **if** the associated cache file
-     *                      exists **and** it is not expired, or `FALSE` otherwise.
+     *  @return mixed       Retrieves the cached value for the specified key **if** the corresponding cache entry exists
+     *                      and is not expired, or `FALSE` otherwise.
      */
-    public function get($key, $ignore_expiry = false) {
+    public function get(string $key) {
 
-        // if cache file exists and it is not expired, return the cached content
-        if (($file_info = $this->_get_file_info($key)) && ($ignore_expiry || time() - filemtime($file_info['path']) < $file_info['timeout'])) {
+        // get the data
+        $data = $this->storage->get($key);
 
-            // in case there is a lock on the file (cache is being written) wait for it to finish
-            $file = fopen($file_info['path'], 'r');
-
-            // a shared lock isn't blocking other instances accessing the file
-            $lock = flock($file, LOCK_SH);
-
-            $data = file_get_contents($file_info['path']);
-
-            // release lock
-            flock($file, LOCK_UN);
-            fclose($file);
-
-            // if data was gz-compressed
-            if ($this->cache_gzcompress) {
-                $data = gzuncompress($data);
-            }
-
-            // if data was encrypted
-            if ($this->cache_encrypt) {
-
-                list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
-                $data = openssl_decrypt($encrypted_data, 'aes-256-cbc', $this->cache_encrypt, 0, $iv);
-
-            }
-
-            // data is always serialized
-            return unserialize($data);
-
+        // if data was gz-compressed
+        if ($this->cache_gzcompress) {
+            $data = gzuncompress($data);
         }
 
-        // return false if we get this far
-        return false;
+        // data is always serialized
+        return unserialize($data);
 
     }
 
     /**
+     *  Checks if a cache entry exists.
+     *
      *  Checks whether a cached, non-expired value exists for the given key, and returns information about it.
      *
      *  <code>
@@ -229,72 +240,41 @@ class Zebra_Cache {
      *
      *  @param  string      $key    The key for which to check if a cached value exists.
      *
-     *  @return boolean             Returns information about the cache associated with the given key **if** the associated
-     *                              cache file exists **and** it is not expired, or `FALSE` otherwise.
+     *  @return mixed       Returns information about the cache associated with the given key as an array, **if**
+     *                      the associated cache entry exists **and** it is not expired, or `FALSE` otherwise.
      *
-     *                              If a cached values exists and it is not expired, the returned array will look like
-     *
-     *                              <code>
-     *                              Array (
-     *                                  'path'       => '',  //  path to the cache file
-     *                                  'timeout'    => '',  //  the number of seconds the cache was supposed to be valid
-     *                                  'ttl'        => '',  //  time to live, the number of seconds remaining until the cache expires
-     *                              )
-     *                              </code>
+     *                      >   For details on the exact return values, please refer to the documentation of the specific
+     *                          storage engine being used, as each may provide additional information unique to its
+     *                          implementation.
      */
-    public function has($key) {
-
-        // if cache file exists and it is not expired
-        if (($file_info = $this->_get_file_info($key)) && ($ttl = time() - filemtime($file_info['path'])) < $file_info['timeout']) {
-
-            // the remaining number of seconds
-            $file_info['ttl'] = $file_info['timeout'] - $ttl;
-
-            // return the info
-            return $file_info;
-
-        }
-
-        // if we get this far it means the cache file does not exist or it is expired
-        return false;
-
+    public function has(string $key) {
+        return $this->storage->has($key);
     }
 
     /**
-     *  Caches data identified by a unique key for a specific number of seconds.
+     *  Stores an item in the cache.
+     *
+     *  Caches data identified by a unique key for a specific number of seconds. If the key already exists, the data
+     *  will be overwritten.
      *
      *  <code>
      *  // if a cached, non-expired value for the sought key does not exist
-     *  if (!($some_data = $cache->get('my-key'))) {
+     *  if (!($my_data = $cache->get('my-key'))) {
      *
      *      // do whatever you need to retrieve data
-     *      $some_data = 'get this data';
+     *      $my_data = 'my data';
      *
      *      // cache the values for one hour (3600 seconds)
-     *      $cache->set('my-key', $some_data, 3600);
+     *      $cache->set('my-key', $my_data, 3600);
      *
      *  }
      *
-     *  // at this point $some_data will always contain your data, either from cache, or fresh
+     *  // at this point $my_data will always contain data, either from cache, or fresh
      *  </code>
      *
-     *  @param  string      $key         unique name identifying the data that is about to be stored.
-     *
-     *                                  The data will be saved in a file on disk at {@link path} and in the form of
-     *
-     *                                  `md5($key) . '-' . $timeout . {@link extension}`
-     *
-     *                                  Therefore, a cache file for the key `my-key`, having a validity of `3600` seconds
-     *                                  (one hour) and with {@link extension} set to `.cache` would look like
-     *
-     *                                  `515780610702189dabd912e9c9ef6f38-3600.cache`
+     *  @param  string      $key        Unique name identifying the data that is about to be stored.
      *
      *  @param  mixed       $data       The data to be stored.
-     *
-     *                                  The data will be stored in {@link https://www.php.net/manual/en/function.serialize.php serialized} form.
-     *
-     *                                  >   Optionally, stored data can be {@link $cache_encrypt encrypted} and/or
-     *                                      {@link cache_gzcompress compressed}.
      *
      *                                  >   Anything that evaluates as *falsy*  will not be cached!<br>
      *                                      These values are:<br>
@@ -307,146 +287,29 @@ class Zebra_Cache {
      *                                      <br>an empty array (an array with zero elements)
      *
      *  @param  integer     $timeout    (Optional) The number of seconds after which the cached data will be considered
-     *                                  as expired.
+     *                                  expired.
      *
-     *                                  If omitted, the value of {@link default_timeout} will be used.
+     *                                  Valid values are integers greater than `0`. The value `0` is also valid and it
+     *                                  indicates that the value of {@link Zebra_Cache::$default_timeout $default_timeout}
+     *                                  will be applied.
      *
-     *  @return boolean                 Returns `TRUE`
+     *                                  >   Providing an invalid value will result in the {@link Zebra_Cache::$default_timeout $default_timeout}
+     *                                      being applied instead.
+     *
+     *                                  Default is `0` ({@link Zebra_Cache::$default_timeout $default_timeout})
+     *
+     *  @return boolean     Returns `TRUE` on success or `FALSE` if data could not be cached.
      */
-    public function set($key, $data, $timeout = -1) {
-
-        // make sure path exists and is writable
-        $this->_check_path();
-
-        // anything that evaluates to false, null, '', boolean false or 0 will not be cached
-        if (!$data) {
-            return false;
-        }
-
-        // if timeout is not specified
-        // use the global value
-        if ($timeout == -1) {
-            $timeout = $this->default_timeout;
-        }
-
-        // if timeout value is invalid
-        if (!is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout)) {
-            $this->_error('invalid timeout value argument in set() method');
-        }
-
-        // delete any other cache file in case it already exists with a different timeout
-        $this->delete($key);
+    public function set(string $key, $data, int $timeout = 0): bool {
 
         // data is always serialized
         $data = serialize($data);
 
-        // if data needs to be encrypted
-        if ($this->cache_encrypt) {
-
-            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-            $encrypted = openssl_encrypt($data, 'aes-256-cbc', $this->cache_encrypt, 0, $iv);
-            $data = base64_encode($encrypted . '::' . $iv);
-
-        }
-
-        // if data needs to also be gz-compressed
-        if ($this->cache_gzcompress) {
-            $data = gzcompress($data);
-        }
-
-        // cache content to file
-        // get an exclusive lock on the file while doing this so that other instances cannot write at the same time
-        file_put_contents($this->path . md5($key) . '-' . $timeout . $this->extension, $data, LOCK_EX);
-
-        return true;
-
-    }
-
-    /**
-     *  Checks if {@link path} exists and is writable and triggers a fatal error if it isn't.
-     *
-     *  @return void
-     *
-     *  @access private
-     */
-    private function _check_path() {
-
-        if (!file_exists($this->path) || !is_writable($this->path)) {
-            $this->_error('path "' . str_replace('\\', '/', getcwd()) . '/' . $this->path . '" does not exists or is not writable');
-        }
-
-    }
-
-    /**
-     *  Custom error function.
-     *
-     *  @param  string  $message        The error message to display.
-     *
-     *  @return void
-     *
-     *  @access private
-     */
-    private function _error($message) {
-
-        trigger_error('<strong>Zebra_Cache</strong>: ' . $message, E_USER_ERROR);
-
-    }
-
-    /**
-     *  Retrieves the associated cache file and its timeout for a given key, or FALSE if the cache file does not exist.
-     *
-     *  @param  string      $key                The key for which to return the associated cache file (with full path)
-     *                                          and timeout (time after which the cache file should be considered as
-     *                                          expired).
-     *
-     *  @return mixed                           Returns an array in the form of
-     *
-     *                                          <code>
-     *                                          array(
-     *                                              'path'      =>  '' // full path to the cache file
-     *                                              'timeout'   =>  '' // number of seconds the cache file is to be considered valid
-     *                                          )
-     *                                          </code>
-     *
-     *                                          If the cache file doesn't exists, the returned value is `FALSE`.
-     *
-     *  @access private
-     */
-    private function _get_file_info($key) {
-
-        // make sure path exists and is writable
-        $this->_check_path();
-
-        // get the matching cache file, if any
-        $file = glob($this->path . md5($key) . '-*' . $this->extension);
-
-        // if, for some reason, there are multiple cache files with the same key
-        // (this should never happen, but we check, just in case)
-        // we delete all
-        if (count($file) > 1) {
-
-            $this->delete($key);
-
-        // if we found exactly one file
-        } elseif (count($file) == 1) {
-
-            // get the timeout value
-            list($prefix, $timeout) = explode('-', $this->extension !== '' ? substr($file[0], 0, -strlen($this->extension)) : $file[0]);
-
-            // if timeout value is valid
-            if (is_numeric($timeout) && $timeout > 1 && preg_match('/^[0-9]+$/', $timeout)) {
-
-                return array(
-                    'path'      => $file[0],
-                    'timeout'   => $timeout,
-                );
-
-            }
-
-        }
-
-        // return false if we get this far
-        return false;
+        return $this->storage->set(
+            $key,
+            $this->cache_gzcompress ? gzcompress($data) : $data,
+            !is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout) ? $this->default_timeout : $timeout
+        );
 
     }
 
