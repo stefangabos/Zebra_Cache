@@ -80,7 +80,7 @@ class Zebra_Cache {
      *
      *  <code>
      *  // make sure you have this at the top of your script
-     *  use stefangabos\Zebra_Cache\Storage\Storage_File
+     *  use stefangabos\Zebra_Cache\Storage\Storage_File;
      *
      *  // initialize file-based storage
      *  $storage = new Storage_File('/path/to/cache/folder');
@@ -93,7 +93,7 @@ class Zebra_Cache {
      *
      *  <code>
      *  // make sure you have this at the top of your script
-     *  use stefangabos\Zebra_Cache\Storage\Storage_Redis
+     *  use stefangabos\Zebra_Cache\Storage\Storage_Redis;
      *
      *  // connect to a Redis server
      *  $redis = new Redis();
@@ -118,7 +118,7 @@ class Zebra_Cache {
      *
      *  <code>
      *  // make sure you have this at the top of your script
-     *  use stefangabos\Zebra_Cache\Storage\Storage_Memcached
+     *  use stefangabos\Zebra_Cache\Storage\Storage_Memcached;
      *
      *  // connect to a Memcached server (using the `memcached` extension)
      *  $memcache = new Memcached();
