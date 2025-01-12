@@ -49,7 +49,7 @@ composer require stefangabos/zebra_cache
 composer require stefangabos/zebra_cache:dev-master
 ```
 
-## Initializing storage engine
+## Initializing the storage engine
 
 Initializing **file-based storage**:
 
