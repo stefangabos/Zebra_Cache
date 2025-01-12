@@ -6,6 +6,8 @@
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_cache/v/stable)](https://packagist.org/packages/stefangabos/zebra_cache) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_cache/downloads)](https://packagist.org/packages/stefangabos/zebra_cache) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/monthly)](https://packagist.org/packages/stefangabos/zebra_cache) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_cache/d/daily)](https://packagist.org/packages/stefangabos/zebra_cache) [![License](https://poser.pugx.org/stefangabos/zebra_cache/license)](https://packagist.org/packages/stefangabos/zebra_cache)
 
+This library provides a unified interface for caching data, allowing the use of various storage backends like file-based caching, Redis, Memcached, or custom implementations.
+
 It supports common caching operations such as storing, retrieving and deleting data, as well as checking for the existence of a cache entry.
 
 ## Features
