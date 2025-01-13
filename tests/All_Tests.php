@@ -203,7 +203,7 @@ class All_Tests extends TestCase {
 
         // assert that the file was created with default timeout
         if ($storage_type === 'File') {
-            $this->assertFileNotExists(TEST_CACHE_DIR . md5($this->key) . '-' . $this->ttl . $this->extension, 'File should not exist');
+            $this->assertFileDoesNotExist(TEST_CACHE_DIR . md5($this->key) . '-' . $this->ttl . $this->extension, 'File should not exist');
         }
 
         // ensure the key is deleted
