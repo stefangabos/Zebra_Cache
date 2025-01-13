@@ -12,6 +12,14 @@ use Memcached;
 use Memcache;
 use Exception;
 
+/**
+ *  Start a Memcached server with
+ *  memcached -m 64 -p 11211
+ *
+ *  Start a Redis server with
+ *  /opt/homebrew/opt/redis/bin/redis-server /opt/homebrew/etc/redis.conf
+ */
+
 class All_Tests extends TestCase {
 
     private Zebra_Cache $cache;
@@ -265,7 +273,6 @@ class All_Tests extends TestCase {
             case 'Redis':
 
                 // connect to the Redis server
-                // /opt/homebrew/opt/redis/bin/redis-server /opt/homebrew/etc/redis.conf
                 $redis = new Redis();
                 $redis->connect('127.0.0.1', 6379);
 
