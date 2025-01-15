@@ -21,7 +21,7 @@
  *  Read more {@link https://github.com/stefangabos/Zebra_Cache/ here}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.0.0 (last revision: January 12, 2025)
+ *  @version    2.0.1 (last revision: January 15, 2025)
  *  @copyright  © 2022 - 2025 Stefan Gabos
  *  @license    https://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Cache
@@ -305,10 +305,13 @@ class Zebra_Cache {
         // data is always serialized
         $data = serialize($data);
 
+        // make sure we have this as an int
+        $timeout = (int)$timeout;
+
         return $this->storage->set(
             $key,
             $this->cache_gzcompress ? gzcompress($data) : $data,
-            !is_numeric($timeout) || $timeout < 1 || !preg_match('/^[0-9]+$/', (string)$timeout) ? $this->default_timeout : $timeout
+            $timeout < 1 ? $this->default_timeout : $timeout
         );
 
     }
