@@ -39,7 +39,7 @@ Use version [1.3.2](https://github.com/stefangabos/Zebra_Cache/releases/tag/1.3.
 
 ## Installation
 
-You can install via [Composer](https://packagist.org/packages/stefangabos/zebra_cache)
+Install via [Composer](https://packagist.org/packages/stefangabos/zebra_cache)
 
 ```bash
 # get the latest stable release
