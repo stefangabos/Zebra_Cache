@@ -34,12 +34,12 @@ if (!($my_data = $cache->get('my-key'))) {
     // cache some data
     $my_data = 'my-data';
 
-    // cache the result for 30 seconds
-    $cache->set('my-key', $my_data, 5);
+    // cache the result for 10 seconds
+    $cache->set('my-key', $my_data, 10);
 
     // print some info
     echo 'Value <code><strong>' . $my_data . '</strong></code> was <u>not previously cached</u><br>';
-    echo 'It was cached now for <strong>5 seconds</strong><br>';
+    echo 'It was cached now for <strong>10 seconds</strong><br>';
     echo 'Refresh the page';
 
 // if data was already cached
