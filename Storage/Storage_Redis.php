@@ -52,8 +52,8 @@ class Storage_Redis implements Storage_Interface {
      *      // do whatever you need to retrieve data
      *      $my_data = 'my data';
      *
-     *      // cache the values for one 10 minutes (10 x 60 seconds)
-     *      $cache->set('my-key', $my_data, 10 * 600);
+     *      // cache the values for 10 minutes (10 x 60 seconds)
+     *      $cache->set('my-key', $my_data, 10 * 60);
      *
      *  }
      *
