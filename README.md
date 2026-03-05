@@ -1,4 +1,4 @@
-<img src="https://github.com/stefangabos/zebrajs/blob/master/docs/images/logo.png" alt="zebra-curl-logo" align="right" width="90">
+<img src="https://github.com/stefangabos/zebrajs/blob/master/docs/images/logo.png" alt="Zebra Cache Logo" align="right" width="90">
 
 # Zebra Cache &nbsp;[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=A+file-based+lightweight+PHP+caching+library+that+uses+file+locking+to+ensure+proper+functionality+under+heavy+load&url=https://github.com/stefangabos/Zebra_Cache&via=stefangabos&hashtags=php,cache)
 
